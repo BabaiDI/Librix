@@ -1,18 +1,10 @@
 import { useEffect, useRef, useState } from "react";
-import { useUser } from "../../Context/UserContext";
+import { useUser } from "../../context/UserContext";
 import { User } from "@supabase/supabase-js";
 import { NavLink } from "react-router-dom";
-import { AuthModalProps, AuthModal } from "./AuthModal";
+import { AuthModal } from "../modals/AuthModal";
 
-function UserIcon({
-  user,
-  signIn,
-  signOut,
-}: {
-  user: User;
-  signIn: (email: string, password: string) => Promise<void>;
-  signOut: () => Promise<void>;
-}) {
+function UserIcon({ signOut }: { user: User; signOut: () => Promise<void> }) {
   const userMenuRef = useRef<HTMLDivElement>(null);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
 
@@ -186,7 +178,7 @@ function Navbar({
 
             <div className="relative ml-3">
               {user ? (
-                <UserIcon user={user} signIn={signIn} signOut={signOut} />
+                <UserIcon user={user} signOut={signOut} />
               ) : (
                 <button
                   className="text-white"

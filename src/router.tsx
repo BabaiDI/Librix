@@ -1,10 +1,10 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Layout from "./View/Layout";
 import Home from "./View/pages/Home";
-import { fetchBookByIdRouted } from "./Model/fetchBook";
-import fetchBooks from "./Model/fetchBooks";
-import Book from "./View/components/Book";
-import { UserProvider } from "./Context/UserContext";
+import { fetchBookByIdRouted } from "./services/fetchBook";
+import fetchBooks from "./services/fetchBooks";
+import Book from "./View/pages/BookList";
+import { UserProvider } from "./context/UserContext";
 import Profile from "./View/pages/Profile";
 
 const router = createBrowserRouter([

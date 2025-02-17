@@ -1,4 +1,4 @@
-import supabase from "../supabaseClient";
+import supabase from "./supabaseClient";
 
 const fetchBook = async (bookId: number) => {
   const { data, error } = await supabase

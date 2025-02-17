@@ -1,4 +1,4 @@
-import supabase from "../supabaseClient";
+import supabase from "./supabaseClient";
 
 const fetchBook = async () => {
   const { data, error } = await supabase.from("book").select();
