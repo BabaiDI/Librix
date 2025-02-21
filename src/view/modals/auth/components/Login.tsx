@@ -1,8 +1,8 @@
 import HCaptcha from "@hcaptcha/react-hcaptcha";
-import { useUser } from "../../../context/UserContext";
 import { useRef, useState } from "react";
-import { InputField } from "../../components/ui/InputField";
-import { Button } from "../../components/ui/Button";
+import Button from "@shared/Button";
+import { InputField } from "@shared/InputField";
+import { useUser } from "@context/UserContext";
 
 interface LoginFormProps {
   onClose: () => void;

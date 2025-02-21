@@ -1,14 +1,16 @@
+interface InputFieldProps {
+  type: string;
+  value: string;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  placeholder: string;
+}
+
 export const InputField = ({
   type,
   value,
   onChange,
   placeholder,
-}: {
-  type: string;
-  value: string;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  placeholder: string;
-}) => (
+}: InputFieldProps) => (
   <input
     type={type}
     placeholder={placeholder}

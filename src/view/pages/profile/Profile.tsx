@@ -1,9 +1,7 @@
-import { useUser } from "../../context/UserContext";
-import { useNavigate } from "react-router-dom";
+import { useUser } from "@context/UserContext";
 
 function Profile() {
   const { user, signIn, signOut } = useUser();
-  const navigate = useNavigate();
 
   if (!user) {
     return <p>Pending...</p>;

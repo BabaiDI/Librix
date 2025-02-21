@@ -1,8 +1,8 @@
 import { useRef, useState } from "react";
-import { useUser } from "../../../context/UserContext";
+import { useUser } from "@context/UserContext";
 import HCaptcha from "@hcaptcha/react-hcaptcha";
-import { Button } from "../../components/ui/Button";
-import { InputField } from "../../components/ui/InputField";
+import Button from "@shared/Button";
+import { InputField } from "@shared/InputField";
 
 interface RegisterFormProps {
   onClose: () => void;

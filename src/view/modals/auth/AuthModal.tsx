@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
-import Modal from "../components/Modal";
-import RegisterForm from "./auth/Resister";
-import LoginForm from "./auth/Login";
-import { Button } from "../components/ui/Button";
-import { ErrorMessage } from "../components/ui/ErrorMessage";
+import Modal from "@shared/Modal";
+import Button from "@shared/Button";
+import { ErrorMessage } from "@shared/ErrorMessage";
+import RegisterForm from "./components/Resister";
+import LoginForm from "./components/Login";
 
 interface AuthModalProps {
   isOpen: boolean;

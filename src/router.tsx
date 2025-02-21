@@ -1,11 +1,13 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import Layout from "./View/Layout";
-import Home from "./View/pages/Home";
+import Layout from "./view/layout/Layout";
 import { fetchBookByIdRouted } from "./services/fetchBook";
 import fetchBooks from "./services/fetchBooks";
-import Book from "./View/pages/BookList";
 import { UserProvider } from "./context/UserContext";
-import Profile from "./View/pages/Profile";
+import Book from "./view/pages/book/Book";
+import Lorem from "./view/pages/Lorem";
+import Home from "./view/pages/home/Home";
+import BookList from "./view/pages/books/BookList";
+import Profile from "./view/pages/profile/Profile";
 
 const router = createBrowserRouter([
   {
@@ -16,6 +18,23 @@ const router = createBrowserRouter([
         index: true,
         element: <Home />,
         loader: fetchBooks,
+      },
+      {
+        path: "/books",
+        element: <BookList />,
+        loader: fetchBooks,
+      },
+      {
+        path: "/authors",
+        element: <>Authors</>,
+      },
+      {
+        path: "/lorem",
+        element: <Lorem />,
+      },
+      {
+        path: "/author/:authorId",
+        element: <>Author id</>,
       },
       {
         path: "/book/:bookId",
