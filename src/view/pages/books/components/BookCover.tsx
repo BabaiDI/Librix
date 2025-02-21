@@ -1,26 +1,25 @@
-import { starSVGPath } from "../../../../assets/iconsSVGPaths";
-import SvgIcon from "../../../shared/SvgIcon";
+import { StarIcon } from "@heroicons/react/24/solid";
 
-const default_cover =
+const defaultCover =
   "https://i.pinimg.com/736x/29/e9/0f/29e90fbcac66748657516eb12f85832c.jpg";
 
 interface BookCoverProps {
   title: string;
-  cover_url: string | null;
+  coverUrl: string | null;
   rating: number | null;
   year: number;
 }
 
 export default function BookCover({
   title,
-  cover_url,
+  coverUrl,
   rating,
   year,
 }: BookCoverProps) {
   return (
     <div
       className="relative flex flex-col justify-end p-4 shadow-lg rounded-2xl aspect-[9/16] bg-cover bg-center text-white"
-      style={{ backgroundImage: `url(${cover_url ?? default_cover})` }}
+      style={{ backgroundImage: `url(${coverUrl ?? defaultCover})` }}
     >
       <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent rounded-2xl"></div>
 
@@ -28,11 +27,7 @@ export default function BookCover({
         className="absolute flex items-center top-2 right-2 bg-black/70 px-2 py-1 text-sm font-bold rounded-lg"
         aria-label="Рейтинг"
       >
-        <SvgIcon
-          fill="currentColor"
-          className="size-5 text-amber-300 mr-1"
-          d={starSVGPath}
-        />
+        <StarIcon fill="currentColor" className="size-5 text-amber-300 mr-1" />
         {rating ? rating.toFixed(1) : "—"}
       </div>
 

@@ -1,6 +1,5 @@
 import { useRef, useState, useEffect } from "react";
-import SvgIcon from "./SvgIcon";
-import { leftArrow, rightArrow } from "@assets/iconsSVGPaths";
+import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/solid";
 
 interface CarouselProps {
   children: React.ReactNode;
@@ -13,7 +12,7 @@ function Carousel({ children }: CarouselProps) {
   useEffect(() => {
     if (scrollRef.current?.firstChild) {
       const firstChild = scrollRef.current.firstChild as HTMLElement;
-      setChildWidth(firstChild.offsetWidth + 16); // Учитываем gap между элементами
+      setChildWidth(firstChild.offsetWidth + 16);
     }
   }, [children]);
 
@@ -32,7 +31,13 @@ function Carousel({ children }: CarouselProps) {
         onClick={() => scroll("left")}
         className="bg-gray-800 text-white p-2 rounded-l-2xl hover:bg-gray-700 mx-2"
       >
-        <SvgIcon className="size-6" fill="currentColor" d={leftArrow} />
+        <ChevronLeftIcon
+          className="size-6"
+          fill="currentColor"
+          stroke="currentColor"
+          strokeWidth={1.5}
+          fillRule="evenodd"
+        />
       </button>
 
       {/* Контейнер с прокруткой */}
@@ -51,7 +56,13 @@ function Carousel({ children }: CarouselProps) {
         onClick={() => scroll("right")}
         className="bg-gray-800 text-white p-2 rounded-r-2xl shadow-lg hover:bg-gray-700 mx-2"
       >
-        <SvgIcon className="size-6" fill="currentColor" d={rightArrow} />
+        <ChevronRightIcon
+          className="size-6"
+          fill="currentColor"
+          stroke="currentColor"
+          strokeWidth={1.5}
+          fillRule="evenodd"
+        />
       </button>
     </div>
   );

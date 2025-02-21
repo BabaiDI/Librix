@@ -21,7 +21,7 @@ function Modal({ children, isOpen, onClose, title }: ModalProps) {
     };
 
     const handleEscape = (event: KeyboardEvent) => {
-      if (event.key === "Escape") {
+      if (event.code === "Escape") {
         onClose();
       }
     };

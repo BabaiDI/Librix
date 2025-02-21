@@ -8,6 +8,7 @@ import Lorem from "./view/pages/Lorem";
 import Home from "./view/pages/home/Home";
 import BookList from "./view/pages/books/BookList";
 import Profile from "./view/pages/profile/Profile";
+import fetchBook from "./services/fetchBooks";
 
 const router = createBrowserRouter([
   {
@@ -35,6 +36,7 @@ const router = createBrowserRouter([
       {
         path: "/author/:authorId",
         element: <>Author id</>,
+        loader: fetchBook,
       },
       {
         path: "/book/:bookId",

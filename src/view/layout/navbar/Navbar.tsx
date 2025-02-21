@@ -4,12 +4,7 @@ import { AuthModal } from "../../modals/auth/AuthModal";
 import { NAVIGATION_LINKS } from "./config/navigations";
 import UserMenu from "./components/UserMenu";
 import { useUser } from "@context/UserContext";
-import SvgIcon from "@shared/SvgIcon";
-import {
-  burgerSVGPath,
-  closeSVGPath,
-  notificationSVGPath,
-} from "@assets/iconsSVGPaths";
+import { BellIcon, LockClosedIcon } from "@heroicons/react/24/solid";
 
 function Navbar() {
   const { user, signIn, signOut } = useUser();
@@ -32,11 +27,7 @@ function Navbar() {
             >
               <span className="absolute -inset-0.5"></span>
               <span className="sr-only">Open main menu</span>
-              <SvgIcon
-                className="block size-6"
-                fill="none"
-                d={!mobileMenuOpen ? closeSVGPath : burgerSVGPath}
-              />
+              <LockClosedIcon></LockClosedIcon>
             </button>
           </div>
           <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
@@ -71,7 +62,12 @@ function Navbar() {
             >
               <span className="absolute -inset-1.5"></span>
               <span className="sr-only">View notifications</span>
-              <SvgIcon className="size-6" d={notificationSVGPath} fill="none" />
+              <BellIcon
+                className="size-6"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth={1.5}
+              />
             </button>
 
             <div className="relative ml-3">

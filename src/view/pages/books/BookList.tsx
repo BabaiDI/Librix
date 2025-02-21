@@ -1,23 +1,32 @@
 import { Tables } from "../../../database.types";
-import { NavLink, useLoaderData } from "react-router-dom";
+import { NavLink, useLoaderData, useSearchParams } from "react-router-dom";
 import { useCallback, useEffect, useState } from "react";
 import supabase from "@services/supabaseClient";
 import BookCover from "./components/BookCover";
+import Pagination from "@shared/Pagination";
 
 function BookList() {
   const books: Tables<"book">[] = useLoaderData();
   const [ratings, setRatings] = useState<Tables<"book_rating">[]>([]);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const currentPage = Number(searchParams.get("page")) || 1;
+  const totalPages = 10;
 
   useEffect(() => {
     supabase
       .from("book_rating")
       .select()
-      .then((res) => {
-        if (res.error) {
+      .in(
+        "book_id",
+        books.map((book) => book.id)
+      )
+      .then(({ data, error }) => {
+        if (error) {
+          console.error(error);
           return;
         }
 
-        setRatings(res.data);
+        setRatings(data);
       });
   }, [books]);
 
@@ -35,7 +44,7 @@ function BookList() {
   return (
     <div className="flex flex-col-reverse md:flex-row gap-6 px-4">
       {/* Блок книг */}
-      <div className="flex-grow">
+      <div className="flex-grow bg-gray-600 p-4 rounded-2xl">
         {books.length > 0 ? (
           <ul className="grid xl:grid-cols-5 lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 gap-6">
             {books.map((book) => (
@@ -43,7 +52,7 @@ function BookList() {
                 <NavLink to={`/book/${book.id}`}>
                   <BookCover
                     title={book.title}
-                    cover_url={book.cover_url}
+                    coverUrl={book.cover_url}
                     rating={getAverageRating(book.id)}
                     year={new Date(book.publish_date ?? 0).getFullYear()} // Получаем год из даты
                   />
@@ -54,6 +63,15 @@ function BookList() {
         ) : (
           <p className="text-gray-500 text-lg text-center">Книги не найдены</p>
         )}
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={(page) => {
+            const newParams = new URLSearchParams(searchParams);
+            newParams.set("page", String(page));
+            setSearchParams(newParams);
+          }}
+        />
       </div>
 
       {/* Фильтр */}

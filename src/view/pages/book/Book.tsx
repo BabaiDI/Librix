@@ -13,24 +13,21 @@ function Book() {
   const [authors, setAuthors] = useState<Tables<"author">[] | null>(null);
 
   useEffect(() => {
-    const fetchData = async () => {
-      const { data, error } = await supabase
-        .from("book")
-        .select("*, publisher(*), book_author(author(*)), book_rating(*)")
-        .eq("id", book.id)
-        .single();
+    supabase
+      .from("book")
+      .select("*, publisher(*), book_author(author(*)), book_rating(*)")
+      .eq("id", book.id)
+      .single()
+      .then(({ data, error }) => {
+        if (error) {
+          console.error(error.message);
+          return;
+        }
 
-      if (error) {
-        console.log(error.message);
-        return;
-      }
-
-      setAuthors(data.book_author.map((entry) => entry.author));
-      setPublisher(data.publisher);
-      setRatings(data.book_rating);
-    };
-
-    fetchData();
+        setAuthors(data.book_author.map((entry) => entry.author));
+        setPublisher(data.publisher);
+        setRatings(data.book_rating);
+      });
   }, [book]);
 
   const avrRating = useMemo(
