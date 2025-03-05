@@ -5,12 +5,7 @@ interface InputFieldProps {
   placeholder: string;
 }
 
-export const InputField = ({
-  type,
-  value,
-  onChange,
-  placeholder,
-}: InputFieldProps) => (
+export const InputField = ({ type, value, onChange, placeholder }: InputFieldProps) => (
   <input
     type={type}
     placeholder={placeholder}

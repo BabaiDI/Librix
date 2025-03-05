@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import Modal from "@shared/Modal";
 import Button from "@shared/Button";
 import { ErrorMessage } from "@shared/ErrorMessage";
-import RegisterForm from "./components/Resister";
+import RegisterForm from "./components/Register";
 import LoginForm from "./components/Login";
 
 interface AuthModalProps {
@@ -60,11 +60,7 @@ export const AuthModal = ({ isOpen, onClose }: AuthModalProps) => {
   }
 
   return (
-    <Modal
-      title={isRegistering ? "Реєстрація" : "Вхід"}
-      isOpen={isOpen}
-      onClose={onCloseModal}
-    >
+    <Modal title={isRegistering ? "Реєстрація" : "Вхід"} isOpen={isOpen} onClose={onCloseModal}>
       <div className={`p-6 flex flex-col items-center ${error && "pt-0"}`}>
         {error && <ErrorMessage message={error} />}
         {isRegistering ? (
@@ -80,9 +76,7 @@ export const AuthModal = ({ isOpen, onClose }: AuthModalProps) => {
           onClick={() => setIsRegistering((prev) => !prev)}
           className="mt-4 text-gray-200 hover:underline"
         >
-          {isRegistering
-            ? "Вже є аккаунт? Війти"
-            : "Немає аккаунта? Зареєструватися"}
+          {isRegistering ? "Вже є аккаунт? Війти" : "Немає аккаунта? Зареєструватися"}
         </Button>
       </div>
     </Modal>

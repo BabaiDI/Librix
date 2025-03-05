@@ -12,7 +12,7 @@ export default function InfoPanel({
   return (
     <div className={`bg-gray-800 p-4 rounded-lg shadow-md h-full ${className}`}>
       <h3 className="text-gray-400 text-sm">{title}</h3>
-      <p className="text-white font-semibold">{children}</p>
+      <div className="text-white font-semibold">{children}</div>
     </div>
   );
 }

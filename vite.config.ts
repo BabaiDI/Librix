@@ -8,9 +8,12 @@ export default defineConfig({
   resolve: {
     alias: {
       "@assets": path.resolve(__dirname, "src/assets"),
+      "@modals": path.resolve(__dirname, "src/view/modals"),
       "@shared": path.resolve(__dirname, "src/view/shared"),
       "@context": path.resolve(__dirname, "src/context"),
       "@services": path.resolve(__dirname, "src/services"),
+      "@utils": path.resolve(__dirname, "src/utils"),
+      "@hooks": path.resolve(__dirname, "src/hooks"),
     },
   },
 });

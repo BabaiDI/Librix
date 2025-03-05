@@ -9,10 +9,7 @@ interface LoginFormProps {
   setErrorMessage: (message: string | null) => void;
 }
 
-export default function LoginForm({
-  onClose,
-  setErrorMessage,
-}: LoginFormProps) {
+export default function LoginForm({ onClose, setErrorMessage }: LoginFormProps) {
   const { signIn } = useUser();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -58,10 +55,7 @@ export default function LoginForm({
           onError={(err) => console.error("Ошибка капчи:", err)}
           ref={captchaRef}
         />
-        <Button
-          onClick={() => {}}
-          className="bg-green-500 text-white hover:bg-green-600"
-        >
+        <Button onClick={() => {}} className="bg-green-500 text-white hover:bg-green-600">
           Війти
         </Button>
       </form>

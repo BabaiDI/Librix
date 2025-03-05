@@ -1,17 +1,60 @@
 import { useUser } from "@context/UserContext";
+import supabase from "@services/supabaseClient";
+import { useEffect, useState } from "react";
+import { Tables } from "src/database.types";
 
 function Profile() {
   const { user, signIn, signOut } = useUser();
+
+  if (!user) {
+    return <div>Треба війти для перегляду профіля</div>;
+  }
+
+  const [bookStatus, setBookStatus] = useState<
+    {
+      status: Tables<"user_book_status">["status"];
+      book: Tables<"book">;
+    }[]
+  >([]);
+
+  useEffect(() => {
+    supabase
+      .from("user_book_status")
+      .select("status, book(*)")
+      .eq("user_id", user.id)
+      .then(({ data, error }) => {
+        if (error) {
+          console.log(error);
+          return;
+        }
+
+        setBookStatus(data);
+      });
+  }, [user]);
 
   if (!user) {
     return <p>Pending...</p>;
   }
 
   return (
-    <div>
+    <>
+      <>
+        <title>{`Librix | Профиль`}</title>
+        <meta name="description" content="Profile page" />
+      </>
       <p>ID: {user.id}</p>
       <p>Email: {user.email}</p>
-    </div>
+      <div>
+        <ul>
+          {bookStatus.map(({ book, status }) => (
+            <li className="border-2">
+              <p>{book.title}</p>
+              {status}
+            </li>
+          ))}
+        </ul>
+      </div>
+    </>
   );
 }
 

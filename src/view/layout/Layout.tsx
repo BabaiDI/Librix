@@ -1,16 +1,23 @@
-import { Outlet } from "react-router-dom";
+import { Outlet, useNavigation } from "react-router";
 import Navbar from "./navbar/Navbar";
-import Footer from "./components/Footer";
+import Footer from "./footer/Footer";
 
 function Layout() {
+  const navigation = useNavigation();
+
   return (
-    <div className="flex flex-col min-h-screen justify-between bg-gray-80 bg-gray-500">
-      <Navbar />
-      <main className="container p-4 mb-auto mx-auto text-white">
-        <Outlet />
-      </main>
-      <Footer />
-    </div>
+    <>
+      <div className="flex flex-col min-h-screen justify-between bg-gray-800">
+        <Navbar />
+        <main className="container p-4 mb-auto mx-auto text-gray-200">
+          {navigation.state === "loading" && (
+            <div className="h-2 bg-gradient-to-r from-blue-400 to-indigo-600 animate-pulse w-full fixed top-0 left-0 z-50 shadow-lg rounded-b-lg"></div>
+          )}
+          <Outlet />
+        </main>
+        <Footer />
+      </div>
+    </>
   );
 }
 

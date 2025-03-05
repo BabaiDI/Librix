@@ -31,7 +31,7 @@ export default function BookCover({
         {rating ? rating.toFixed(1) : "—"}
       </div>
 
-      <div className="relative z-10">
+      <div className="relative">
         <h3 className="text-lg font-semibold truncate">{title}</h3>
         <span className="text-sm opacity-80">{year}</span>
       </div>

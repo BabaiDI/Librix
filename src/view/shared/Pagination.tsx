@@ -3,31 +3,65 @@ import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/solid";
 interface PaginationProps {
   currentPage: number;
   totalPages: number;
+  range?: number;
   onPageChange: (page: number) => void;
 }
+
+const PaginationButton = ({
+  page,
+  currentPage,
+  onPageChange,
+}: {
+  page: number;
+  currentPage: number;
+  onPageChange: (page: number) => void;
+}) => (
+  <button
+    onClick={() => onPageChange(page)}
+    className={`px-3 py-1 rounded-lg border transition-all duration-300 ${
+      currentPage === page
+        ? "bg-blue-500 text-white border-blue-500"
+        : "hover:bg-blue-600 hover:text-white border-gray-600"
+    }`}
+  >
+    {page}
+  </button>
+);
+
+const PaginationEllipsis = () => <span className="px-3 py-1 text-gray-300">...</span>;
+
+const PaginationNavButton = ({
+  direction,
+  onClick,
+  disabled,
+}: {
+  direction: "left" | "right";
+  onClick: () => void;
+  disabled: boolean;
+}) => (
+  <button
+    onClick={onClick}
+    disabled={disabled}
+    className={`p-2 rounded-lg border transition-all duration-300 hover:bg-gray-700 ${
+      disabled ? "opacity-50 cursor-not-allowed" : "hover:bg-blue-600"
+    }`}
+  >
+    {direction === "left" ? (
+      <ChevronLeftIcon className="w-5 h-5 text-white" />
+    ) : (
+      <ChevronRightIcon className="w-5 h-5 text-white" />
+    )}
+  </button>
+);
 
 export default function Pagination({
   currentPage,
   totalPages,
+  range = 2,
   onPageChange,
 }: PaginationProps) {
-  const handlePageClick = (page: number) => {
-    if (page >= 1 && page <= totalPages) {
-      onPageChange(page);
-    }
-  };
-
-  // Функция для генерации массива страниц с "..."
   const getPageNumbers = () => {
-    const pages: (number | "...")[] = [];
-    const range = 2; // Количество страниц по бокам от текущей
-
-    if (totalPages <= 7) {
-      return Array.from({ length: totalPages }, (_, i) => i + 1);
-    }
-
-    pages.push(1);
-    if (currentPage > range + 2) pages.push("...");
+    const pages: number[] = [];
 
     for (
       let i = Math.max(2, currentPage - range);
@@ -37,52 +71,42 @@ export default function Pagination({
       pages.push(i);
     }
 
-    if (currentPage < totalPages - (range + 1)) pages.push("...");
-    pages.push(totalPages);
-
     return pages;
   };
 
   return (
-    <div className="flex items-center justify-center gap-1 mt-4">
-      {/* Кнопка "Назад" */}
-      <button
-        onClick={() => handlePageClick(currentPage - 1)}
+    <div className="sticky bottom-1 left-0 right-0 bg-gray-900 shadow-md rounded-lg py-2 m-2 px-4 flex items-center justify-center gap-2 w-full md:w-auto">
+      <PaginationNavButton
+        direction="left"
+        onClick={() => onPageChange(currentPage - 1)}
         disabled={currentPage === 1}
-        className="p-2 rounded-lg border transition hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed"
-      >
-        <ChevronLeftIcon className="w-5 h-5" />
-      </button>
+      />
 
-      {/* Номера страниц */}
-      {getPageNumbers().map((page, index) =>
-        page === "..." ? (
-          <span key={index} className="px-2 py-1 text-gray-500">
-            ...
-          </span>
-        ) : (
-          <button
-            key={page}
-            onClick={() => handlePageClick(page as number)}
-            className={`px-3 py-1 rounded-lg border transition ${
-              currentPage === page
-                ? "bg-blue-500 text-white border-blue-500"
-                : "hover:bg-gray-100"
-            }`}
-          >
-            {page}
-          </button>
-        )
+      {currentPage > range - 2 && (
+        <PaginationButton page={1} currentPage={currentPage} onPageChange={onPageChange} />
       )}
 
-      {/* Кнопка "Вперёд" */}
-      <button
-        onClick={() => handlePageClick(currentPage + 1)}
+      {currentPage > range + 2 && <PaginationEllipsis />}
+      {getPageNumbers().map((page, index) => (
+        <PaginationButton
+          key={index}
+          page={page}
+          currentPage={currentPage}
+          onPageChange={onPageChange}
+        />
+      ))}
+
+      {totalPages - currentPage > range + 1 && <PaginationEllipsis />}
+
+      {totalPages > 1 && totalPages - currentPage > range - 3 && (
+        <PaginationButton page={totalPages} currentPage={currentPage} onPageChange={onPageChange} />
+      )}
+
+      <PaginationNavButton
+        direction="right"
+        onClick={() => onPageChange(currentPage + 1)}
         disabled={currentPage === totalPages}
-        className="p-2 rounded-lg border transition hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed"
-      >
-        <ChevronRightIcon className="w-5 h-5" />
-      </button>
+      />
     </div>
   );
 }

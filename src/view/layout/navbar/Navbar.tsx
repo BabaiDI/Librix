@@ -1,15 +1,15 @@
 import { useState } from "react";
-import { NavLink, useLocation } from "react-router-dom";
-import { AuthModal } from "../../modals/auth/AuthModal";
+import { NavLink, useLocation } from "react-router";
 import { NAVIGATION_LINKS } from "./config/navigations";
 import UserMenu from "./components/UserMenu";
 import { useUser } from "@context/UserContext";
-import { BellIcon, LockClosedIcon } from "@heroicons/react/24/solid";
+import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/solid";
+import NotificationsDropdown from "./components/NotificationMenu";
 
 function Navbar() {
-  const { user, signIn, signOut } = useUser();
+  const { user, signOut, openAuthModal } = useUser();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [authModalOpen, setAuthModalOpen] = useState(false);
+  const [notificationMenuOpen, setNotificationMenuOpen] = useState(false);
   const location = useLocation();
 
   return (
@@ -17,7 +17,6 @@ function Navbar() {
       <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
         <div className="relative flex h-16 items-center justify-between">
           <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
-            {/* Mobile menu button */}
             <button
               type="button"
               className="relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:ring-2 focus:ring-white focus:outline-hidden focus:ring-inset"
@@ -27,13 +26,15 @@ function Navbar() {
             >
               <span className="absolute -inset-0.5"></span>
               <span className="sr-only">Open main menu</span>
-              <LockClosedIcon></LockClosedIcon>
+              {mobileMenuOpen ? (
+                <XMarkIcon aria-hidden="true" className="size-6" />
+              ) : (
+                <Bars3Icon aria-hidden="true" className="size-6" />
+              )}
             </button>
           </div>
           <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
-            <div className="flex shrink-0 items-center text-xl font-bold text-white">
-              Librix
-            </div>
+            <div className="flex shrink-0 items-center text-xl font-bold text-white">Librix</div>
             <div className="hidden sm:ml-6 sm:block">
               <div className="flex space-x-4">
                 {NAVIGATION_LINKS.map((nav) => (
@@ -45,9 +46,7 @@ function Navbar() {
                         ? "bg-gray-900 text-white"
                         : "text-gray-300 hover:bg-gray-700 hover:text-white"
                     }`}
-                    aria-current={
-                      location.pathname === nav.href ? "page" : undefined
-                    }
+                    aria-current={location.pathname === nav.href ? "page" : undefined}
                   >
                     {nav.name}
                   </NavLink>
@@ -56,35 +55,29 @@ function Navbar() {
             </div>
           </div>
           <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-            <button
-              type="button"
-              className="relative rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800 focus:outline-hidden"
-            >
-              <span className="absolute -inset-1.5"></span>
-              <span className="sr-only">View notifications</span>
-              <BellIcon
-                className="size-6"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth={1.5}
-              />
-            </button>
+            <div>
+              <button
+                type="button"
+                className="relative rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800 focus:outline-hidden"
+                onClick={() => setNotificationMenuOpen(true)}
+              >
+                <span className="absolute -inset-1.5"></span>
+                <span className="sr-only">View notifications</span>
+                <BellIcon className="size-6" fill="none" stroke="currentColor" strokeWidth={1.5} />
+              </button>
+              {notificationMenuOpen && (
+                <NotificationsDropdown onClose={() => setNotificationMenuOpen(false)} />
+              )}
+            </div>
 
             <div className="relative ml-3">
               {user ? (
                 <UserMenu user={user} signOut={signOut} />
               ) : (
-                <button
-                  className="text-white"
-                  onClick={() => setAuthModalOpen(true)}
-                >
+                <button className="text-white" onClick={openAuthModal}>
                   Login
                 </button>
               )}
-              <AuthModal
-                isOpen={authModalOpen}
-                onClose={() => setAuthModalOpen(false)}
-              />
             </div>
           </div>
         </div>
@@ -103,9 +96,7 @@ function Navbar() {
                     ? "bg-gray-900 text-white"
                     : "text-gray-300 hover:bg-gray-700 hover:text-white"
                 }`}
-                aria-current={
-                  location.pathname === nav.href ? "page" : undefined
-                }
+                aria-current={location.pathname === nav.href ? "page" : undefined}
               >
                 {nav.name}
               </NavLink>

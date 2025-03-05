@@ -1,14 +1,20 @@
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import Layout from "./view/layout/Layout";
-import { fetchBookByIdRouted } from "./services/fetchBook";
-import fetchBooks from "./services/fetchBooks";
+import { createBrowserRouter, RouterProvider } from "react-router";
+import { lazy } from "react";
 import { UserProvider } from "./context/UserContext";
-import Book from "./view/pages/book/Book";
-import Lorem from "./view/pages/Lorem";
-import Home from "./view/pages/home/Home";
-import BookList from "./view/pages/books/BookList";
-import Profile from "./view/pages/profile/Profile";
-import fetchBook from "./services/fetchBooks";
+import Layout from "./view/layout/Layout";
+import bookLoader from "./view/pages/book/book.loader";
+import booksLoader from "./view/pages/books/books.loader";
+import authorLoader from "./view/pages/author/author.loader";
+import authorsLoader from "./view/pages/authors/authors.loader";
+
+const Home = lazy(() => import("./view/pages/home/Home"));
+const Profile = lazy(() => import("./view/pages/profile/Profile"));
+
+const Books = lazy(() => import("./view/pages/books/Books"));
+const Book = lazy(() => import("./view/pages/book/Book"));
+
+const Authors = lazy(() => import("./view/pages/authors/Authors"));
+const Author = lazy(() => import("./view/pages/author/Author"));
 
 const router = createBrowserRouter([
   {
@@ -18,34 +24,30 @@ const router = createBrowserRouter([
       {
         index: true,
         element: <Home />,
-        loader: fetchBooks,
       },
       {
-        path: "/books",
-        element: <BookList />,
-        loader: fetchBooks,
-      },
-      {
-        path: "/authors",
-        element: <>Authors</>,
-      },
-      {
-        path: "/lorem",
-        element: <Lorem />,
-      },
-      {
-        path: "/author/:authorId",
-        element: <>Author id</>,
-        loader: fetchBook,
-      },
-      {
-        path: "/book/:bookId",
-        element: <Book />,
-        loader: fetchBookByIdRouted,
-      },
-      {
-        path: "/profile",
+        path: "profile",
         element: <Profile />,
+      },
+      {
+        path: "authors",
+        element: <Authors />,
+        loader: authorsLoader,
+      },
+      {
+        path: "author/:authorId",
+        element: <Author />,
+        loader: authorLoader,
+      },
+      {
+        path: "books",
+        element: <Books />,
+        loader: booksLoader,
+      },
+      {
+        path: "book/:bookId",
+        element: <Book />,
+        loader: bookLoader,
       },
     ],
   },

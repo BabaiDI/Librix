@@ -12,10 +12,7 @@ function Modal({ children, isOpen, onClose, title }: ModalProps) {
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (
-        modalRef.current &&
-        !modalRef.current.contains(event.target as Node)
-      ) {
+      if (modalRef.current && !modalRef.current.contains(event.target as Node)) {
         onClose();
       }
     };
@@ -44,9 +41,7 @@ function Modal({ children, isOpen, onClose, title }: ModalProps) {
         className="relative w-full max-w-lg rounded-lg shadow-xl transition-all transform scale-95 animate-fade-in"
       >
         <div className="bg-gray-800 rounded-t flex items-center justify-between px-6 py-4 border-b">
-          <h2 className="text-xl text-white font-semibold">
-            {title || "Модальне вікно"}
-          </h2>
+          <h2 className="text-xl text-white font-semibold">{title || "Модальне вікно"}</h2>
           <button
             onClick={onClose}
             className="text-purple-500 hover:text-purple-700 transition-colors"

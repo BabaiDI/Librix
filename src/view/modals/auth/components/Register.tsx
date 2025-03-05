@@ -65,10 +65,7 @@ export default function RegisterForm({
           onError={(err) => console.error("Ошибка капчи:", err)}
           ref={captchaRef}
         />
-        <Button
-          onClick={() => {}}
-          className="bg-blue-500 text-white hover:bg-blue-600"
-        >
+        <Button onClick={() => {}} className="bg-blue-500 text-white hover:bg-blue-600">
           Зареєструватися
         </Button>
       </form>

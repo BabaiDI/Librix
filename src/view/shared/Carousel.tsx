@@ -26,10 +26,10 @@ function Carousel({ children }: CarouselProps) {
 
   return (
     <div className="relative w-full flex items-center">
-      {/* Кнопка влево */}
       <button
         onClick={() => scroll("left")}
-        className="bg-gray-800 text-white p-2 rounded-l-2xl hover:bg-gray-700 mx-2"
+        className="bg-gray-800 text-white p-2 rounded-l-2xl hover:bg-gray-900 mx-2"
+        name="left"
       >
         <ChevronLeftIcon
           className="size-6"
@@ -40,7 +40,6 @@ function Carousel({ children }: CarouselProps) {
         />
       </button>
 
-      {/* Контейнер с прокруткой */}
       <div
         ref={scrollRef}
         className="flex overflow-x-auto scrollbar-hide gap-4 p-2 scroll-smooth"
@@ -51,10 +50,10 @@ function Carousel({ children }: CarouselProps) {
         {children}
       </div>
 
-      {/* Кнопка вправо */}
       <button
         onClick={() => scroll("right")}
-        className="bg-gray-800 text-white p-2 rounded-r-2xl shadow-lg hover:bg-gray-700 mx-2"
+        className="bg-gray-800 text-white p-2 rounded-r-2xl hover:bg-gray-900 mx-2"
+        name="right"
       >
         <ChevronRightIcon
           className="size-6"

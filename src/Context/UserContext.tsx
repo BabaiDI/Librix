@@ -1,15 +1,10 @@
-import {
-  createContext,
-  ReactNode,
-  useContext,
-  useEffect,
-  useState,
-} from "react";
+import { createContext, ReactNode, useContext, useEffect, useState } from "react";
 import supabase from "../services/supabaseClient";
 import { Session, User } from "@supabase/supabase-js";
+import { AuthModal } from "@modals/auth/AuthModal";
 
-export interface UserContextType {
-  user: User | undefined;
+interface UserContextType {
+  user: User | null;
   signIn: (
     email: string,
     password: string,
@@ -21,19 +16,24 @@ export interface UserContextType {
     password: string,
     captchaToken: string
   ) => Promise<{ needsConfirmation: boolean }>;
+  openAuthModal: () => void;
 }
 
 const UserContext = createContext<UserContextType | null>(null);
 
 export const UserProvider = ({ children }: { children: ReactNode }) => {
   const [session, setSession] = useState<Session | null>(null);
-  const [user, setUser] = useState<User | undefined>(undefined);
+  const [user, setUser] = useState<User | null>(null);
 
-  const signIn = async (
-    email: string,
-    password: string,
-    captchaToken: string
-  ) => {
+  const [authModalOpen, setAuthModalOpen] = useState(false);
+  const openAuthModal = () => {
+    setAuthModalOpen(true);
+  };
+  const closeAuthModal = () => {
+    setAuthModalOpen(false);
+  };
+
+  const signIn = async (email: string, password: string, captchaToken: string) => {
     const { data, error } = await supabase.auth.signInWithPassword({
       email,
       password,
@@ -49,11 +49,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
     };
   };
 
-  const signUp = async (
-    email: string,
-    password: string,
-    captchaToken: string
-  ) => {
+  const signUp = async (email: string, password: string, captchaToken: string) => {
     const { data, error } = await supabase.auth.signUp({
       email,
       password,
@@ -76,25 +72,30 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
 
   useEffect(() => {
     supabase.auth.getSession().then((res) => {
-      if (res.error) return;
+      if (res.error) {
+        console.error("Error getting session:", res.error);
+        return;
+      }
       setSession(res.data.session);
-      setUser(res.data.session?.user);
+      setUser(res.data.session?.user || null);
     });
 
     const {
       data: { subscription },
     } = supabase.auth.onAuthStateChange((event, session) => {
-      console.log(session);
       setSession(session);
-      setUser(session?.user);
+      setUser(session?.user || null);
     });
 
     return () => subscription?.unsubscribe();
   }, []);
 
   return (
-    <UserContext.Provider value={{ user, signIn, signOut, signUp }}>
-      {children}
+    <UserContext.Provider value={{ user, signIn, signOut, signUp, openAuthModal }}>
+      <>
+        <AuthModal isOpen={authModalOpen} onClose={closeAuthModal} />
+        {children}
+      </>
     </UserContext.Provider>
   );
 };

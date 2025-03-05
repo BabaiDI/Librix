@@ -1,5 +1,13 @@
 function Home() {
-  return <div>Home</div>;
+  return (
+    <>
+      <>
+        <title>Librix | Home</title>
+        <meta name="description" content="Home page" />
+      </>
+      <div>Home</div>
+    </>
+  );
 }
 
 export default Home;
