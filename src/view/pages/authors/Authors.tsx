@@ -1,8 +1,9 @@
-import { NavLink, useLoaderData } from "react-router";
+import { generatePath, NavLink, useLoaderData } from "react-router";
 import AuthorCover from "./components/AuthorCover";
 import Pagination from "@shared/Pagination";
 import { usePagination } from "@hooks/usePagination";
 import { LoaderType } from "./authors.loader";
+import { routes } from "@consts/router.paths";
 
 function AuthorList() {
   const { authors, count } = useLoaderData<LoaderType>();
@@ -20,7 +21,7 @@ function AuthorList() {
             <ul className="grid xl:grid-cols-5 lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 gap-6">
               {authors.map((author) => (
                 <li key={author.id}>
-                  <NavLink to={`/author/${author.id}`}>
+                  <NavLink to={generatePath(routes.authors.entity, { authorId: author.id })}>
                     <AuthorCover author={author} />
                   </NavLink>
                 </li>

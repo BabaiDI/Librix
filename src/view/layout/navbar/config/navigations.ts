@@ -1,5 +1,7 @@
+import { routes } from "@consts/router.paths";
+
 export const NAVIGATION_LINKS = [
-  { name: "Home", href: "/" },
-  { name: "Books", href: "/books" },
-  { name: "Authors", href: "/authors" },
+  { name: "Home", href: routes.home },
+  { name: "Books", href: routes.books.index },
+  { name: "Authors", href: routes.authors.index },
 ];

@@ -1,9 +1,10 @@
 import { useState, useEffect } from "react";
-import { NavLink, useLoaderData } from "react-router";
+import { generatePath, NavLink, useLoaderData } from "react-router";
 import supabase from "@services/supabaseClient";
 import Carousel from "@shared/Carousel";
-import { Tables } from "src/database.types";
+import { Tables } from "src/consts/database.types";
 import InfoPanel from "../book/components/InfoPanel";
+import { routes } from "@database.types";
 
 function Book() {
   const author: Tables<"author"> = useLoaderData();
@@ -56,7 +57,7 @@ function Book() {
         <Carousel>
           {books?.map((book) => (
             <NavLink
-              to={`/book/${book.id}`}
+              to={generatePath(routes.books.entity, { bookId: book.id })}
               key={book.id}
               className="min-w-[150px] max-w-[200px] p-4 bg-gray-700 text-white rounded-lg shadow-lg text-center"
             >

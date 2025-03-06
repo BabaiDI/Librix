@@ -1,8 +1,9 @@
-import { NavLink, useLoaderData } from "react-router";
+import { generatePath, NavLink, useLoaderData } from "react-router";
 import BookCover from "./components/BookCover";
 import Pagination from "@shared/Pagination";
 import { usePagination } from "@hooks/usePagination";
 import { LoaderType } from "./books.loader";
+import { routes } from "@consts/router.paths";
 
 function BookList() {
   const { books, count }: LoaderType = useLoaderData();
@@ -20,7 +21,7 @@ function BookList() {
             <ul className="grid xl:grid-cols-5 lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 gap-6">
               {books.map((book) => (
                 <li key={book.id}>
-                  <NavLink to={`/book/${book.id}`}>
+                  <NavLink to={generatePath(routes.books.entity, { bookId: book.id })}>
                     <BookCover
                       title={book.title}
                       coverUrl={book.cover_url}

@@ -1,7 +1,6 @@
 import { StarIcon } from "@heroicons/react/24/solid";
 
-const defaultCover =
-  "https://i.pinimg.com/736x/29/e9/0f/29e90fbcac66748657516eb12f85832c.jpg";
+const defaultCover = "https://i.pinimg.com/736x/29/e9/0f/29e90fbcac66748657516eb12f85832c.jpg";
 
 interface BookCoverProps {
   title: string;
@@ -10,12 +9,7 @@ interface BookCoverProps {
   year: number;
 }
 
-export default function BookCover({
-  title,
-  coverUrl,
-  rating,
-  year,
-}: BookCoverProps) {
+export default function BookCover({ title, coverUrl, rating, year }: BookCoverProps) {
   return (
     <div
       className="relative flex flex-col justify-end p-4 shadow-lg rounded-2xl aspect-[9/16] bg-cover bg-center text-white"

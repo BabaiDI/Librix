@@ -53,6 +53,7 @@ export default function LoginForm({ onClose, setErrorMessage }: LoginFormProps) 
           onVerify={setCaptchaToken}
           onExpire={() => setCaptchaToken(null)}
           onError={(err) => console.error("Ошибка капчи:", err)}
+          theme="dark"
           ref={captchaRef}
         />
         <Button onClick={() => {}} className="bg-green-500 text-white hover:bg-green-600">

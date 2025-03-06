@@ -17,8 +17,8 @@ function Footer() {
         </nav>
 
         <div className="text-sm mt-4 md:mt-0">
-          © <span title="fucking niggers">{new Date().getFullYear()}</span>{" "}
-          Librix. Всі права захищені.
+          © <span title="fucking niggers">{new Date().getFullYear()}</span> Librix. Всі права
+          захищені.
         </div>
       </div>
     </footer>

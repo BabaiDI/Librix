@@ -1,7 +1,7 @@
 import supabase from "@services/supabaseClient";
 import { User } from "@supabase/supabase-js";
 import { useEffect, useState } from "react";
-import { Enums, Tables } from "src/database.types";
+import { Enums, Tables } from "src/consts/database.types";
 import { useUser } from "@context/UserContext";
 import { ChevronDownIcon, XMarkIcon } from "@heroicons/react/24/solid";
 

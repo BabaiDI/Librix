@@ -1,10 +1,10 @@
 import supabase from "@services/supabaseClient";
 import { getPaginationRangeFromRequest } from "@utils/pagination";
 import { LoaderFunction } from "react-router";
-import { Tables } from "src/database.types";
+import { Tables } from "src/consts/database.types";
 
 export interface LoaderType {
-  books: Tables<"book">[];
+  books: Tables<"page_data_books">[];
   count: number;
 }
 

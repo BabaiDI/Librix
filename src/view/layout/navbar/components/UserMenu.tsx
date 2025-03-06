@@ -1,6 +1,7 @@
 import { User } from "@supabase/supabase-js";
 import { useEffect, useRef, useState } from "react";
 import { NavLink } from "react-router";
+import { routes } from "@consts/router.paths";
 
 interface UserIconType {
   user: User;
@@ -12,8 +13,8 @@ export default function UserIcon({ signOut }: UserIconType) {
   const [userMenuOpen, setUserMenuOpen] = useState(false);
 
   const UserMenuDetails = [
-    { name: "You Profile", href: "/profile", onClick: () => {} },
-    { name: "Settings", href: "/profile/settings", onClick: () => {} },
+    { name: "You Profile", href: routes.profile.index, onClick: () => {} },
+    { name: "Settings", href: routes.profile.settings, onClick: () => {} },
     { name: "Sign out", href: "", onClick: signOut },
   ];
 

@@ -1,8 +1,8 @@
 import { useState, useEffect, useMemo, useCallback, useRef } from "react";
-import { NavLink, useLoaderData } from "react-router";
+import { generatePath, NavLink, useLoaderData } from "react-router";
 import supabase from "@services/supabaseClient";
 import Carousel from "@shared/Carousel";
-import { Tables, Database } from "src/database.types";
+import { Tables, Database } from "src/consts/database.types";
 import AuthorCover from "./components/AuthorCard";
 import RatingBar from "./components/RatingBar";
 import {
@@ -15,6 +15,7 @@ import {
 } from "@heroicons/react/24/solid";
 import { useUser } from "@context/UserContext";
 import UserBookStatus from "./components/UserBookStatus";
+import { routes } from "@consts/router.paths";
 
 function Book() {
   const { user } = useUser();
@@ -185,7 +186,7 @@ function Book() {
                 <Carousel>
                   {authors?.map((author) => (
                     <NavLink
-                      to={`/author/${author.id}`}
+                      to={generatePath(routes.authors.entity, { authorId: author.id })}
                       key={author.id}
                       className="min-w-[150px] max-w-[200px] p-2 bg-gray-700 text-white rounded-lg text-center"
                     >
@@ -218,7 +219,11 @@ function Book() {
               <div className="text-white mb-4">
                 <strong>Видавництво:</strong>{" "}
                 <NavLink
-                  to={publisher?.id ? `publishers/${publisher?.id}` : "#"}
+                  to={
+                    publisher?.id
+                      ? generatePath(routes.publisher.edit, { publisherId: publisher.id })
+                      : "#"
+                  }
                   className="text-blue-500 hover:text-blue-600"
                 >
                   {publisher?.name ?? "Unknown"}

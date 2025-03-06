@@ -1,6 +1,7 @@
 import { createBrowserRouter, RouterProvider } from "react-router";
 import { lazy } from "react";
 import { UserProvider } from "./context/UserContext";
+import { routes } from "./consts/router.paths";
 import Layout from "./view/layout/Layout";
 import bookLoader from "./view/pages/book/book.loader";
 import booksLoader from "./view/pages/books/books.loader";
@@ -18,7 +19,7 @@ const Author = lazy(() => import("./view/pages/author/Author"));
 
 const router = createBrowserRouter([
   {
-    path: "/",
+    path: routes.home,
     element: <Layout />,
     children: [
       {
@@ -26,28 +27,73 @@ const router = createBrowserRouter([
         element: <Home />,
       },
       {
-        path: "profile",
-        element: <Profile />,
+        path: routes.profile.index,
+        children: [
+          {
+            index: true,
+            element: <Profile />,
+          },
+          {
+            path: routes.profile.settings,
+            element: <>Profile settings</>,
+          },
+        ],
       },
       {
-        path: "authors",
-        element: <Authors />,
-        loader: authorsLoader,
+        path: routes.authors.index,
+        children: [
+          {
+            index: true,
+            element: <Authors />,
+            loader: authorsLoader,
+          },
+          {
+            path: routes.authors.entity,
+            children: [
+              {
+                index: true,
+                element: <Author />,
+                loader: authorLoader,
+              },
+              {
+                path: routes.authors.edit,
+                element: <>author edit</>,
+              },
+            ],
+          },
+          {
+            path: routes.authors.new,
+            element: <>Add authror</>,
+          },
+        ],
       },
       {
-        path: "author/:authorId",
-        element: <Author />,
-        loader: authorLoader,
-      },
-      {
-        path: "books",
-        element: <Books />,
-        loader: booksLoader,
-      },
-      {
-        path: "book/:bookId",
-        element: <Book />,
-        loader: bookLoader,
+        path: routes.books.index,
+        children: [
+          {
+            index: true,
+            element: <Books />,
+            loader: booksLoader,
+          },
+          {
+            path: routes.books.entity,
+            children: [
+              {
+                index: true,
+                element: <Book />,
+                loader: bookLoader,
+              },
+              {
+                path: routes.books.edit,
+                element: <>book edit</>,
+              },
+            ],
+          },
+          {
+            path: routes.books.new,
+            element: <>book new</>,
+          },
+        ],
       },
     ],
   },

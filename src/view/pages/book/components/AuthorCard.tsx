@@ -1,4 +1,4 @@
-import { Tables } from "../../../../database.types";
+import { Tables } from "@consts/database.types";
 
 const defaultCover = "/default-cover.jpg";
 

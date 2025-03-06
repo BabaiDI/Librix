@@ -1,7 +1,7 @@
 import { useUser } from "@context/UserContext";
 import supabase from "@services/supabaseClient";
 import { useEffect, useState } from "react";
-import { Tables } from "src/database.types";
+import { Tables } from "src/consts/database.types";
 
 function Profile() {
   const { user, signIn, signOut } = useUser();
