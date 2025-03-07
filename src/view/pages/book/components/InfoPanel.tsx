@@ -4,15 +4,11 @@ interface InfoPanelProps {
   className?: string | null;
 }
 
-export default function InfoPanel({
-  title,
-  children,
-  className = null,
-}: InfoPanelProps) {
+export default function InfoPanel({ title, children }: InfoPanelProps) {
   return (
-    <div className={`bg-gray-800 p-4 rounded-lg shadow-md h-full ${className}`}>
-      <h3 className="text-gray-400 text-sm">{title}</h3>
-      <div className="text-white font-semibold">{children}</div>
+    <div className="grid grid-cols-2 gap-4">
+      <h3 className="text-wrap">{title}</h3>
+      <div className="flex-auto">{children}</div>
     </div>
   );
 }

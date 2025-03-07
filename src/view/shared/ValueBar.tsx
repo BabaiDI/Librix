@@ -2,27 +2,31 @@ interface RatingBarProps {
   value: any;
   count: number;
   maxCountRating: number;
+  bgSlideClass?: string;
+  slideClass?: string;
 }
 
-export default function RatingBar({
+export default function ValueBar({
   value,
   count,
   maxCountRating,
+  bgSlideClass = "bg-blue-900",
+  slideClass = "bg-blue-500",
 }: RatingBarProps) {
   const width = maxCountRating !== 0 ? (count / maxCountRating) * 100 : 0;
 
   return (
     <div className="flex flex-row items-center gap-2 w-full">
-      <span className="w-6 h-6 aspect-square p-0.5 flex items-center justify-center text-white bg-gray-500 rounded-md tabular-nums">
+      <span className="w-6 h-6 aspect-square p-0.5 flex items-center justify-center text-white bg-gray-700 rounded-md tabular-nums">
         {value}
       </span>
-      <div className="w-full bg-gray-700 rounded-full h-2.5 overflow-hidden">
+      <div className={`h-2.5 rounded-full w-full overflow-hidden ${bgSlideClass}`}>
         <div
-          className="bg-blue-600 h-2.5 rounded-full"
+          className={`h-2.5 rounded-full ${slideClass}`}
           style={{
             width: `${width}%`,
           }}
-        ></div>
+        />
       </div>
 
       <span

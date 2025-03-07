@@ -1,38 +1,11 @@
-import { useState, useEffect } from "react";
 import { generatePath, NavLink, useLoaderData } from "react-router";
-import supabase from "@services/supabaseClient";
 import Carousel from "@shared/Carousel";
-import { Tables } from "src/consts/database.types";
 import InfoPanel from "../book/components/InfoPanel";
-import { routes } from "@database.types";
+import { routes } from "@consts/router.paths";
+import { loaderType } from "./author.loader";
 
 function Book() {
-  const author: Tables<"author"> = useLoaderData();
-  const [books, setBooks] = useState<Tables<"book">[] | null>(null);
-
-  useEffect(() => {
-    const controller = new AbortController();
-    const signal = controller.signal;
-
-    supabase
-      .from("book_author")
-      .select("book(*)")
-      .eq("author_id", author.id)
-      .abortSignal(signal)
-      .then(({ data, error }) => {
-        if (signal.aborted) {
-          console.info("Request aborted");
-          return;
-        }
-
-        if (error) {
-          console.error(error.message);
-          return;
-        }
-
-        setBooks(data.map((entry) => entry.book));
-      });
-  }, [author]);
+  const { author, books }: loaderType = useLoaderData();
 
   return (
     <>

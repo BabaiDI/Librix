@@ -4,7 +4,7 @@ import { LoaderFunction } from "react-router";
 import { Tables } from "src/consts/database.types";
 
 export interface LoaderType {
-  books: Tables<"page_data_books">[];
+  books: (Tables<"book"> & { average_rating: number })[];
   count: number;
 }
 
@@ -13,7 +13,7 @@ const loader: LoaderFunction = async ({ request }) => {
 
   const { data, error, count } = await supabase
     .from("page_data_books")
-    .select("*", { count: "exact" })
+    .select(`*`, { count: "exact" })
     .order("created_at", { ascending: false })
     .range(paginationRange.start, paginationRange.end);
 

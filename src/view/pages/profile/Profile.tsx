@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { Tables } from "src/consts/database.types";
 
 function Profile() {
-  const { user, signIn, signOut } = useUser();
+  const { user } = useUser();
 
   if (!user) {
     return <div>Треба війти для перегляду профіля</div>;
@@ -31,10 +31,6 @@ function Profile() {
         setBookStatus(data);
       });
   }, [user]);
-
-  if (!user) {
-    return <p>Pending...</p>;
-  }
 
   return (
     <>

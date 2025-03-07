@@ -3,19 +3,20 @@ import { lazy } from "react";
 import { UserProvider } from "./context/UserContext";
 import { routes } from "./consts/router.paths";
 import Layout from "./view/layout/Layout";
+
 import bookLoader from "./view/pages/book/book.loader";
 import booksLoader from "./view/pages/books/books.loader";
 import authorLoader from "./view/pages/author/author.loader";
 import authorsLoader from "./view/pages/authors/authors.loader";
 
-const Home = lazy(() => import("./view/pages/home/Home"));
-const Profile = lazy(() => import("./view/pages/profile/Profile"));
-
-const Books = lazy(() => import("./view/pages/books/Books"));
-const Book = lazy(() => import("./view/pages/book/Book"));
-
-const Authors = lazy(() => import("./view/pages/authors/Authors"));
-const Author = lazy(() => import("./view/pages/author/Author"));
+const Pages = {
+  Home: lazy(() => import("./view/pages/home/Home")),
+  Profile: lazy(() => import("./view/pages/profile/Profile")),
+  Books: lazy(() => import("./view/pages/books/Books")),
+  Book: lazy(() => import("./view/pages/book/Book")),
+  Authors: lazy(() => import("./view/pages/authors/Authors")),
+  Author: lazy(() => import("./view/pages/author/Author")),
+};
 
 const router = createBrowserRouter([
   {
@@ -24,14 +25,14 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <Home />,
+        element: <Pages.Home />,
       },
       {
         path: routes.profile.index,
         children: [
           {
             index: true,
-            element: <Profile />,
+            element: <Pages.Profile />,
           },
           {
             path: routes.profile.settings,
@@ -44,7 +45,7 @@ const router = createBrowserRouter([
         children: [
           {
             index: true,
-            element: <Authors />,
+            element: <Pages.Authors />,
             loader: authorsLoader,
           },
           {
@@ -52,7 +53,7 @@ const router = createBrowserRouter([
             children: [
               {
                 index: true,
-                element: <Author />,
+                element: <Pages.Author />,
                 loader: authorLoader,
               },
               {
@@ -72,7 +73,7 @@ const router = createBrowserRouter([
         children: [
           {
             index: true,
-            element: <Books />,
+            element: <Pages.Books />,
             loader: booksLoader,
           },
           {
@@ -80,7 +81,7 @@ const router = createBrowserRouter([
             children: [
               {
                 index: true,
-                element: <Book />,
+                element: <Pages.Book />,
                 loader: bookLoader,
               },
               {
