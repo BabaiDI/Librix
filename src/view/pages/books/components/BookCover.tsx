@@ -26,8 +26,8 @@ export default function BookCover({ title, coverUrl, rating, year }: BookCoverPr
       </div>
 
       <div className="relative">
-        <h3 className="text-lg font-semibold truncate">{title}</h3>
-        <span className="text-sm opacity-80">{year}</span>
+        <h3 className="text-xl font-semibold truncate">{title}</h3>
+        <span className="text-sm opacity-80 font-mono">{year}</span>
       </div>
     </div>
   );

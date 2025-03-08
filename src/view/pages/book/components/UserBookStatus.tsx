@@ -10,11 +10,11 @@ interface LibraryTypes {
 }
 
 const statuses = [
-  { name: "Хочу прочитать", type: "want to read" },
-  { name: "Читаю", type: "reading" },
-  { name: "Прочитано", type: "read" },
-  { name: "На паузе", type: "on hold" },
-  { name: "Отложено", type: "dropped" },
+  { label: "Хочу прочитать", type: "want to read" },
+  { label: "Читаю", type: "reading" },
+  { label: "Прочитано", type: "read" },
+  { label: "На паузе", type: "on hold" },
+  { label: "Отложено", type: "dropped" },
 ];
 
 export default function UserBookStatus({ bookId, userId }: LibraryTypes) {
@@ -49,7 +49,7 @@ export default function UserBookStatus({ bookId, userId }: LibraryTypes) {
             </option>
             {statuses.map((status) => (
               <option key={status.type} value={status.type} className="w-full">
-                {status.name}
+                {status.label}
               </option>
             ))}
           </select>

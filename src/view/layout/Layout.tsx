@@ -7,7 +7,7 @@ function Layout() {
 
   return (
     <>
-      <div className="flex flex-col min-h-screen justify-between bg-gray-800">
+      <div className="flex flex-col min-h-screen justify-between bg-gray-800 font-[Nunito]">
         <Navbar />
         <main className="container p-4 mb-auto mx-auto text-gray-200">
           {navigation.state === "loading" && (

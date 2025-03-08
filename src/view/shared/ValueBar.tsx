@@ -1,7 +1,7 @@
 interface RatingBarProps {
   value: any;
   count: number;
-  maxCountRating: number;
+  maxCount: number;
   bgSlideClass?: string;
   slideClass?: string;
 }
@@ -9,11 +9,11 @@ interface RatingBarProps {
 export default function ValueBar({
   value,
   count,
-  maxCountRating,
+  maxCount,
   bgSlideClass = "bg-blue-900",
   slideClass = "bg-blue-500",
 }: RatingBarProps) {
-  const width = maxCountRating !== 0 ? (count / maxCountRating) * 100 : 0;
+  const width = maxCount !== 0 ? (count / maxCount) * 100 : 0;
 
   return (
     <div className="flex flex-row items-center gap-2 w-full">
@@ -32,7 +32,7 @@ export default function ValueBar({
       <span
         className="tabular-nums text-right text-gray-300 text-sm"
         style={{
-          minWidth: `${maxCountRating.toLocaleString().length}ch`,
+          minWidth: `${maxCount.toLocaleString().length}ch`,
         }}
       >
         {count.toLocaleString()}

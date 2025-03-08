@@ -6,7 +6,7 @@ import { useUser } from "@context/UserContext";
 import UserBookStatus from "./components/UserBookStatus";
 import { routes } from "@consts/router.paths";
 import { loaderType } from "./book.loader";
-import Statistic from "./components/Statistic";
+import Statistic from "./components/statistic/Statistic";
 import InfoPanel from "./components/InfoPanel";
 
 function Book() {
@@ -130,10 +130,7 @@ function Book() {
             </div>
 
             <div className="rounded-2xl p-6 px-4">
-              <Statistic
-                bookRatingCountGrouped={bookRatingCountGrouped}
-                bookStatusCountGrouped={bookStatusCountGrouped}
-              />
+              <Statistic ratings={bookRatingCountGrouped} statuses={bookStatusCountGrouped} />
             </div>
           </div>
         </div>
