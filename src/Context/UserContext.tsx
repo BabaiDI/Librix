@@ -1,10 +1,12 @@
 import { createContext, ReactNode, useContext, useEffect, useState } from "react";
 import supabase from "../services/supabaseClient";
-import { Session, User } from "@supabase/supabase-js";
+import { User } from "@supabase/supabase-js";
 import { AuthModal } from "@modals/auth/AuthModal";
+import { Tables } from "@consts/database.types";
 
 interface UserContextType {
   user: User | null;
+  profile: Tables<"profile"> | null;
   signIn: (
     email: string,
     password: string,
@@ -14,7 +16,8 @@ interface UserContextType {
   signUp: (
     email: string,
     password: string,
-    captchaToken: string
+    captchaToken: string,
+    username: string
   ) => Promise<{ needsConfirmation: boolean }>;
   openAuthModal: () => void;
 }
@@ -22,8 +25,8 @@ interface UserContextType {
 const UserContext = createContext<UserContextType | null>(null);
 
 export const UserProvider = ({ children }: { children: ReactNode }) => {
-  const [session, setSession] = useState<Session | null>(null);
   const [user, setUser] = useState<User | null>(null);
+  const [profile, setProfile] = useState<Tables<"profile"> | null>(null);
 
   const [authModalOpen, setAuthModalOpen] = useState(false);
   const openAuthModal = () => {
@@ -49,11 +52,28 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
     };
   };
 
-  const signUp = async (email: string, password: string, captchaToken: string) => {
+  const signUp = async (
+    email: string,
+    password: string,
+    username: string,
+    captchaToken: string
+  ) => {
+    const hasSpaces = username.includes(" ");
+
+    if (hasSpaces) {
+      console.error("username has space");
+      return Promise.reject(new Error("username can`t include spaces"));
+    }
+
     const { data, error } = await supabase.auth.signUp({
       email,
       password,
-      options: { captchaToken },
+      options: {
+        captchaToken,
+        data: {
+          name: username,
+        },
+      },
     });
 
     if (error && !data.user) {
@@ -76,22 +96,36 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
         console.error("Error getting session:", res.error);
         return;
       }
-      setSession(res.data.session);
       setUser(res.data.session?.user || null);
     });
 
     const {
       data: { subscription },
     } = supabase.auth.onAuthStateChange((event, session) => {
-      setSession(session);
       setUser(session?.user || null);
     });
 
     return () => subscription?.unsubscribe();
   }, []);
 
+  useEffect(() => {
+    if (!user) {
+      setProfile(null);
+      return;
+    }
+
+    supabase
+      .from("profile")
+      .select()
+      .eq("id", user.id)
+      .single()
+      .then((data) => {
+        setProfile(data.data);
+      });
+  }, [user]);
+
   return (
-    <UserContext.Provider value={{ user, signIn, signOut, signUp, openAuthModal }}>
+    <UserContext.Provider value={{ user, profile, signIn, signOut, signUp, openAuthModal }}>
       <>
         <AuthModal isOpen={authModalOpen} onClose={closeAuthModal} />
         {children}

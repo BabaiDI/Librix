@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Database } from "src/database.types";
+import { Database } from "@consts/database.types";
 import StatisticButton from "./StatisticButton";
 import StatisticRatingList from "./StatisticRatingList";
 import StatisticStatusList from "./StatisticStatusList";

@@ -38,7 +38,7 @@ function Modal({ children, isOpen, onClose, title }: ModalProps) {
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-900/50 backdrop-blur-sm">
       <div
         ref={modalRef}
-        className="relative w-full max-w-lg rounded-lg shadow-xl transition-all transform scale-95 animate-fade-in"
+        className="relative w-full max-w-fit rounded-lg shadow-xl transition-all transform scale-95 animate-fade-in"
       >
         <div className="bg-gray-800 rounded-t flex items-center justify-between px-6 py-4 border-b">
           <h2 className="text-xl text-white font-semibold">{title || "Модальне вікно"}</h2>

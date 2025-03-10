@@ -1,6 +1,6 @@
 import ValueBar from "@shared/ValueBar";
 import { memo } from "react";
-import { Database } from "src/database.types";
+import { Database } from "@consts/database.types";
 
 interface RatingItemsListProps {
   items: Database["public"]["Functions"]["get_book_rating_count_grouped"]["Returns"] | null;

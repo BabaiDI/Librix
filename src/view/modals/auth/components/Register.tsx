@@ -18,6 +18,7 @@ export default function RegisterForm({
   const { signUp } = useUser();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [username, setUsername] = useState("");
   const [captchaToken, setCaptchaToken] = useState<string | null>(null);
   const captchaRef = useRef<HCaptcha | null>(null);
 
@@ -30,7 +31,7 @@ export default function RegisterForm({
       return;
     }
 
-    signUp(email, password, captchaToken)
+    signUp(email, password, username, captchaToken)
       .then((res) => {
         if (!res.needsConfirmation) {
           onClose();
@@ -46,6 +47,12 @@ export default function RegisterForm({
   return (
     <div className="bg-gray-800 text-white shadow-lg rounded-lg p-6">
       <form onSubmit={handleSubmit} className="flex flex-col gap-3 mt-4">
+        <InputField
+          type="text"
+          placeholder="Username"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+        />
         <InputField
           type="email"
           placeholder="Email"

@@ -206,6 +206,13 @@ export type Database = {
             referencedRelation: "page_data_books"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "book_rating_user_id_fkey1"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profile"
+            referencedColumns: ["id"]
+          },
         ]
       }
       book_reviews: {
@@ -245,41 +252,42 @@ export type Database = {
             referencedRelation: "page_data_books"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "book_reviews_user_id_fkey1"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profile"
+            referencedColumns: ["id"]
+          },
         ]
       }
       commentary: {
         Row: {
           book_id: number | null
-          content: string | null
+          content: string
           created_at: string
-          dislikes: number
           id: number
-          likes: number
           parent_id: number | null
           updated_at: string | null
-          user_id: string | null
+          user_id: string
         }
         Insert: {
           book_id?: number | null
-          content?: string | null
+          content: string
           created_at?: string
-          dislikes?: number
           id?: number
-          likes?: number
           parent_id?: number | null
           updated_at?: string | null
-          user_id?: string | null
+          user_id: string
         }
         Update: {
           book_id?: number | null
-          content?: string | null
+          content?: string
           created_at?: string
-          dislikes?: number
           id?: number
-          likes?: number
           parent_id?: number | null
           updated_at?: string | null
-          user_id?: string | null
+          user_id?: string
         }
         Relationships: [
           {
@@ -301,6 +309,49 @@ export type Database = {
             columns: ["parent_id"]
             isOneToOne: false
             referencedRelation: "commentary"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "commentary_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profile"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      commentary_action: {
+        Row: {
+          action: Database["public"]["Enums"]["commenraty_action"]
+          commentary_id: number
+          created_at: string
+          user_id: string
+        }
+        Insert: {
+          action: Database["public"]["Enums"]["commenraty_action"]
+          commentary_id?: number
+          created_at?: string
+          user_id?: string
+        }
+        Update: {
+          action?: Database["public"]["Enums"]["commenraty_action"]
+          commentary_id?: number
+          created_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "commentary_action_commentary_id_fkey"
+            columns: ["commentary_id"]
+            isOneToOne: false
+            referencedRelation: "commentary"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "commentary_action_user_id_fkey1"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profile"
             referencedColumns: ["id"]
           },
         ]
@@ -326,6 +377,21 @@ export type Database = {
           id?: number
           name?: string
           updated_at?: string | null
+        }
+        Relationships: []
+      }
+      profile: {
+        Row: {
+          id: string
+          name: string
+        }
+        Insert: {
+          id: string
+          name: string
+        }
+        Update: {
+          id?: string
+          name?: string
         }
         Relationships: []
       }
@@ -399,6 +465,13 @@ export type Database = {
             referencedRelation: "page_data_books"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "user_book_favorite_user_id_fkey1"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profile"
+            referencedColumns: ["id"]
+          },
         ]
       }
       user_book_status: {
@@ -436,6 +509,13 @@ export type Database = {
             columns: ["book_id"]
             isOneToOne: false
             referencedRelation: "page_data_books"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "user_book_status_user_id_fkey1"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profile"
             referencedColumns: ["id"]
           },
         ]
@@ -523,6 +603,7 @@ export type Database = {
         | "want to read"
         | "on hold"
         | "dropped"
+      commenraty_action: "like" | "dislike"
     }
     CompositeTypes: {
       [_ in never]: never

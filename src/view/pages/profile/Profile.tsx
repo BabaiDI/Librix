@@ -2,11 +2,14 @@ import { useUser } from "@context/UserContext";
 import supabase from "@services/supabaseClient";
 import { useEffect, useState } from "react";
 import { Tables } from "src/consts/database.types";
+import ImageUploader from "./components/ImageUploader";
 
 function Profile() {
-  const { user } = useUser();
+  const { user, profile } = useUser();
 
-  if (!user) {
+  console.log(profile);
+
+  if (!user || !profile) {
     return <div>Треба війти для перегляду профіля</div>;
   }
 
@@ -32,6 +35,24 @@ function Profile() {
       });
   }, [user]);
 
+  const handleCropComplete = (croppedFile: File) => {
+    console.log("Обрезанное изображение:", croppedFile);
+
+    supabase.storage
+      .from("profile_pictures")
+      .upload(`${profile.id}.png`, croppedFile, {
+        upsert: true,
+      })
+      .then(({ data, error }) => {
+        if (error) {
+          console.error(error);
+          return;
+        }
+
+        console.log(data);
+      });
+  };
+
   return (
     <>
       <>
@@ -39,11 +60,13 @@ function Profile() {
         <meta name="description" content="Profile page" />
       </>
       <p>ID: {user.id}</p>
+      <p>Name: {profile.name}</p>
       <p>Email: {user.email}</p>
+      <ImageUploader onCropComplete={handleCropComplete} />
       <div>
         <ul>
           {bookStatus.map(({ book, status }) => (
-            <li className="border-2">
+            <li key={book.id} className="border-2">
               <p>{book.title}</p>
               {status}
             </li>

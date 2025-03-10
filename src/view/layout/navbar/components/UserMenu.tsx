@@ -1,16 +1,18 @@
-import { User } from "@supabase/supabase-js";
 import { useEffect, useRef, useState } from "react";
 import { NavLink } from "react-router";
 import { routes } from "@consts/router.paths";
+import { Tables } from "@consts/database.types";
+import useProfileAvatar from "@hooks/useProfileAvatar";
 
 interface UserIconType {
-  user: User;
+  profile: Tables<"profile">;
   signOut: () => Promise<void>;
 }
 
-export default function UserIcon({ signOut }: UserIconType) {
+export default function UserIcon({ profile, signOut }: UserIconType) {
   const userMenuRef = useRef<HTMLDivElement>(null);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
+  const { avatarUrl } = useProfileAvatar(profile.id, profile.name);
 
   const UserMenuDetails = [
     { name: "You Profile", href: routes.profile.index, onClick: () => {} },
@@ -41,11 +43,7 @@ export default function UserIcon({ signOut }: UserIconType) {
         >
           <span className="absolute -inset-1.5"></span>
           <span className="sr-only">Open user menu</span>
-          <img
-            className="size-8 rounded-full"
-            src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-            alt=""
-          />
+          <img className="size-8 rounded-full object-cover" src={avatarUrl} alt={profile.name} />
         </button>
       </div>
 

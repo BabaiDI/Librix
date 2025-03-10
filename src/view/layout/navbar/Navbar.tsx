@@ -7,7 +7,7 @@ import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/solid";
 import NotificationsDropdown from "./components/NotificationMenu";
 
 function Navbar() {
-  const { user, signOut, openAuthModal } = useUser();
+  const { profile, signOut, openAuthModal } = useUser();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [notificationMenuOpen, setNotificationMenuOpen] = useState(false);
   const location = useLocation();
@@ -71,8 +71,8 @@ function Navbar() {
             </div>
 
             <div className="relative ml-3">
-              {user ? (
-                <UserMenu user={user} signOut={signOut} />
+              {profile ? (
+                <UserMenu profile={profile} signOut={signOut} />
               ) : (
                 <button className="text-white" onClick={openAuthModal}>
                   Login

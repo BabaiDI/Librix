@@ -8,9 +8,10 @@ import { routes } from "@consts/router.paths";
 import { loaderType } from "./book.loader";
 import Statistic from "./components/statistic/Statistic";
 import InfoPanel from "./components/InfoPanel";
+import Comments from "./components/Comments";
 
 function Book() {
-  const { user } = useUser();
+  const { profile } = useUser();
   const {
     book,
     publisher,
@@ -39,10 +40,8 @@ function Book() {
             className="object-cover rounded-lg mb-4 w-full aspect-1.5"
           />
           <div className="flex flex-col gap-3">
-            <UserBookStatus userId={user?.id} bookId={book.id} />
-            <button className="bg-gray-600 hover:bg-gray-700 text-white py-2 px-4 rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-gray-600">
-              Comments
-            </button>
+            <UserBookStatus userId={profile?.user_id} bookId={book.id} />
+            <Comments bookId={book.id} />
           </div>
         </div>
 

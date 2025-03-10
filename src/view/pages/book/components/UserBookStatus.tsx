@@ -1,4 +1,3 @@
-import { User } from "@supabase/supabase-js";
 import { Enums, Tables } from "src/consts/database.types";
 import { useUser } from "@context/UserContext";
 import { ChevronDownIcon, XMarkIcon } from "@heroicons/react/24/solid";
@@ -6,15 +5,15 @@ import { useUserBookStatus } from "@hooks/useUserBookStatus";
 
 interface LibraryTypes {
   bookId: Tables<"book">["id"];
-  userId: User["id"] | undefined;
+  userId: Tables<"profile">["user_id"] | undefined;
 }
 
 const statuses = [
-  { label: "Хочу прочитать", type: "want to read" },
+  { label: "Хочу прочести", type: "want to read" },
   { label: "Читаю", type: "reading" },
   { label: "Прочитано", type: "read" },
-  { label: "На паузе", type: "on hold" },
-  { label: "Отложено", type: "dropped" },
+  { label: "На паузі", type: "on hold" },
+  { label: "Відкладено", type: "dropped" },
 ];
 
 export default function UserBookStatus({ bookId, userId }: LibraryTypes) {
