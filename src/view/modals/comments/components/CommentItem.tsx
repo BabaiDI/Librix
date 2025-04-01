@@ -23,7 +23,7 @@ export default function CommentItem({ comments, onReply, opensReply, toggleReply
   return (
     <ul className="space-y-6 max-w-2xl">
       {comments.map((comment) => {
-        const { avatarUrl } = useProfileAvatar(comment.profile.id, comment.profile.name);
+        const avatarUrl = useProfileAvatar(comment.profile.id, comment.profile.name);
 
         return (
           <li key={comment.id} className="border-b pb-2 last:border-none">

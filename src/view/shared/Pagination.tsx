@@ -110,3 +110,5 @@ export default function Pagination({
     </div>
   );
 }
+
+// TODO Compound Component Pattern

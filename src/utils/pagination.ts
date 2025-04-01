@@ -4,11 +4,9 @@ interface PaginationRange {
 }
 
 export const getPaginationRangeFromRequest = (
-  request: Request,
+  page: number = 1,
   pageSize: number = 30
 ): PaginationRange => {
-  const url = new URL(request.url);
-  const page = Number(url.searchParams.get("page")) || 1;
   const paginationRange = getPaginationRange(page, pageSize);
 
   return paginationRange;

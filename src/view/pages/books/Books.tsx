@@ -1,9 +1,10 @@
-import { generatePath, NavLink, useLoaderData } from "react-router";
+import { generatePath, NavLink, useLoaderData, useSearchParams } from "react-router";
 import BookCover from "./components/BookCover";
 import Pagination from "@shared/Pagination";
 import { usePagination } from "@hooks/usePagination";
 import { LoaderType } from "./books.loader";
 import { routes } from "@consts/router.paths";
+import Filter from "./components/filter/Filter";
 
 function BookList() {
   const { books, count }: LoaderType = useLoaderData();
@@ -33,16 +34,12 @@ function BookList() {
               ))}
             </ul>
           ) : (
-            <p className="text-lg text-center">Книги не найдены</p>
+            <p className="text-lg text-center">Книги не найдені</p>
           )}
           <Pagination currentPage={page} totalPages={totalPages} onPageChange={onPageChange} />
         </div>
 
-        {/* Фильтр */}
-        <div className="w-full md:w-64 p-4 border border-gray-600 rounded-xl shadow-lg bg-gray-900">
-          <h2 className="text-xl font-semibold mb-4">Фильтр</h2>
-          <div className="space-y-3"></div>
-        </div>
+        <Filter />
       </div>
     </>
   );

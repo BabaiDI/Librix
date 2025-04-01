@@ -40,7 +40,7 @@ function Book() {
             className="object-cover rounded-lg mb-4 w-full aspect-1.5"
           />
           <div className="flex flex-col gap-3">
-            <UserBookStatus userId={profile?.user_id} bookId={book.id} />
+            <UserBookStatus userId={profile?.id} bookId={book.id} />
             <Comments bookId={book.id} />
           </div>
         </div>

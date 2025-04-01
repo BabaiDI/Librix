@@ -27,5 +27,5 @@ export default function useProfileAvatar(userId: Tables<"profile">["id"], avatar
       });
   }, [userId]);
 
-  return { avatarUrl };
+  return avatarUrl;
 }

@@ -5,7 +5,7 @@ import { useUserBookStatus } from "@hooks/useUserBookStatus";
 
 interface LibraryTypes {
   bookId: Tables<"book">["id"];
-  userId: Tables<"profile">["user_id"] | undefined;
+  userId: Tables<"profile">["id"] | undefined;
 }
 
 const statuses = [

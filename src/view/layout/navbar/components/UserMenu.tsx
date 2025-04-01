@@ -12,7 +12,7 @@ interface UserIconType {
 export default function UserIcon({ profile, signOut }: UserIconType) {
   const userMenuRef = useRef<HTMLDivElement>(null);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
-  const { avatarUrl } = useProfileAvatar(profile.id, profile.name);
+  const avatarUrl = useProfileAvatar(profile.id, profile.name);
 
   const UserMenuDetails = [
     { name: "You Profile", href: routes.profile.index, onClick: () => {} },

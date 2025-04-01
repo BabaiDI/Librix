@@ -4,6 +4,7 @@ import { UserProvider } from "./context/UserContext";
 import { routes } from "./consts/router.paths";
 import Layout from "./view/layout/Layout";
 
+import homeLoader from "./view/pages/home/home.loader";
 import bookLoader from "./view/pages/book/book.loader";
 import booksLoader from "./view/pages/books/books.loader";
 import authorLoader from "./view/pages/author/author.loader";
@@ -26,6 +27,7 @@ const router = createBrowserRouter([
       {
         index: true,
         element: <Pages.Home />,
+        loader: homeLoader,
       },
       {
         path: routes.profile.index,

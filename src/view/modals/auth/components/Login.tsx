@@ -14,7 +14,7 @@ export default function LoginForm({ onClose, setErrorMessage }: LoginFormProps) 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [captchaToken, setCaptchaToken] = useState<string | null>(null);
-  const captchaRef = useRef<HCaptcha | null>(null);
+  const captchaRef = useRef<HCaptcha>(null);
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
