@@ -1,6 +1,5 @@
 import { createBrowserRouter, RouterProvider } from "react-router";
 import { lazy } from "react";
-import { UserProvider } from "./context/UserContext";
 import { routes } from "./consts/router.paths";
 import Layout from "./view/layout/Layout";
 
@@ -9,10 +8,13 @@ import bookLoader from "./view/pages/book/book.loader";
 import booksLoader from "./view/pages/books/books.loader";
 import authorLoader from "./view/pages/author/author.loader";
 import authorsLoader from "./view/pages/authors/authors.loader";
+import userLoader from "./view/pages/user/user.loader";
+import { UserProvider } from "./context/UserContext";
 
 const Pages = {
   Home: lazy(() => import("./view/pages/home/Home")),
   Profile: lazy(() => import("./view/pages/profile/Profile")),
+  User: lazy(() => import("./view/pages/user/User")),
   Books: lazy(() => import("./view/pages/books/Books")),
   Book: lazy(() => import("./view/pages/book/Book")),
   Authors: lazy(() => import("./view/pages/authors/Authors")),
@@ -39,6 +41,11 @@ const router = createBrowserRouter([
           {
             path: routes.profile.settings,
             element: <>Profile settings</>,
+          },
+          {
+            path: routes.profile.entity,
+            element: <Pages.User />,
+            loader: userLoader,
           },
         ],
       },

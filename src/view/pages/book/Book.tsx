@@ -1,4 +1,4 @@
-import { generatePath, NavLink, useLoaderData } from "react-router";
+import { generatePath, Link, NavLink, useLoaderData } from "react-router";
 import Carousel from "@shared/Carousel";
 import AuthorCover from "./components/AuthorCard";
 import { StarIcon } from "@heroicons/react/24/solid";
@@ -18,6 +18,8 @@ function Book() {
     bookAuthor,
     bookRatingCountGrouped,
     bookStatusCountGrouped,
+    genre,
+    serial,
   }: loaderType = useLoaderData();
 
   return (
@@ -60,14 +62,23 @@ function Book() {
 
           {/* Book Description and Authors */}
           <div className="p-6 flex flex-col gap-4 lg:col-span-2 rounded-lg">
+            <div>
+              <h2 className="text-lg font-semibold text-white mb-2">Жанри</h2>
+              <ul className="flex flex-wrap gap-2">
+                {genre.map((item) => (
+                  <li key={item.id}>
+                    <Link
+                      to={`/books?genres=${encodeURIComponent(item.name)}`}
+                      className="bg-gray-700 text-white px-3 py-1 rounded-full text-sm hover:bg-gray-600 transition cursor-pointer"
+                    >
+                      {item.name}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
             <div className="text-white text-lg">
               {book.description ?? "No description available."}
-            </div>
-            <div className="text-white text-md">
-              <strong>Серия:</strong>{" "}
-              <NavLink to="#" className="text-blue-500">
-                [link]
-              </NavLink>
             </div>
             {bookAuthor?.length === 0 || (
               <div className="flex flex-col gap-4">
@@ -97,16 +108,23 @@ function Book() {
             <div className="gap-4 px-4">
               <div className="text-white text-lg font-semibold mb-4">Деталі</div>
               <div className="flex flex-col gap-4 bg-gray-700 rounded-2xl p-4">
-                <InfoPanel title={"Сторінок:"}>{book.pages ?? "Unknown"}</InfoPanel>
-                <InfoPanel title={"Мова оригіналу:"}>{book.language ?? "Unknown"}</InfoPanel>
-                <InfoPanel title={"Дата публіканя:"}>
+                <InfoPanel title="Сторінок:">{book.pages ?? "Unknown"}</InfoPanel>
+                <InfoPanel title="Мова оригіналу:">{book.language ?? "Unknown"}</InfoPanel>
+                <InfoPanel title="Дата публіканя:">
                   {new Date(book.publish_date ?? 0).toLocaleDateString(navigator.language, {
                     day: "numeric",
                     month: "long",
                     year: "numeric",
                   })}
                 </InfoPanel>
-                <InfoPanel title={"Видавництво:"}>
+                <InfoPanel title="Серія:">
+                  {serial.map((item) => (
+                    <Link key={item.id} to={`/serials/${item.id}`} className="block">
+                      {item.name ?? "Unknown"}
+                    </Link>
+                  ))}
+                </InfoPanel>
+                <InfoPanel title="Видавництво:">
                   <div className="flex flex-col">
                     <NavLink
                       to={

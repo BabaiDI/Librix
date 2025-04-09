@@ -20,7 +20,11 @@ const loader: LoaderFunction = async ({ request }) => {
 
   let query = supabase
     .from("page_data_books")
-    .select(`*`, { count: "exact" })
+    .select(
+      `*, 
+      book_genre!inner(genre!inner(*))`,
+      { count: "exact" }
+    )
     .order("created_at", { ascending: false })
     .range(paginationRange.start, paginationRange.end);
 
@@ -31,12 +35,18 @@ const loader: LoaderFunction = async ({ request }) => {
     pages_to: url.searchParams.get("pages_to"),
     language: url.searchParams.get("language"),
     title: url.searchParams.get("title"),
+    genres: url.searchParams.get("genres"),
   };
 
   Object.entries(filters).forEach(([key, value]) => {
     if (!value) return;
 
     switch (key) {
+      case "genres":
+        const ganresArray = value.split("+");
+        query = query.in("book_genre.genre.name", ganresArray);
+        break;
+
       case "title":
         query = query.filter(key, "ilike", `%${value}%`);
         break;
@@ -70,6 +80,8 @@ const loader: LoaderFunction = async ({ request }) => {
   });
 
   const { data, error, count } = await query;
+
+  console.log(data);
 
   if (error) {
     console.error(error.message);

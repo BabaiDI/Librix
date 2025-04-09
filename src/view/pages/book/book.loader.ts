@@ -18,18 +18,21 @@ export interface loaderType {
   bookRatingCountGrouped:
     | Database["public"]["Functions"]["get_book_rating_count_grouped"]["Returns"]
     | null;
+  genre: Tables<"genre">[];
+  serial: Tables<"serial">[];
 }
 
 const loader: LoaderFunction = async ({ params: { bookId } }: loaderTypes) => {
   if (!bookId) throw new Error("bookId is required");
 
-  const { publisher, book_author, ...book } = await supabase
+  const { publisher, book_author, genre, serial, ...book } = await supabase
     .from("page_data_books")
-    .select("*, publisher(*), book_author(author(*))")
+    .select("*, publisher(*), book_author(author(*)), genre(*), serial(*)")
     .eq("id", bookId)
     .single()
     .then(({ data, error }) => {
       if (error) throw new Error(error.message);
+      console.log(data);
       return data;
     });
 
@@ -48,11 +51,13 @@ const loader: LoaderFunction = async ({ params: { bookId } }: loaderTypes) => {
     });
 
   return {
-    book: book,
-    publisher: publisher,
+    book,
+    genre,
+    serial,
+    publisher,
     bookAuthor: book_author.map((entry) => entry.author),
-    bookRatingCountGrouped: bookRatingCountGrouped,
-    bookStatusCountGrouped: bookStatusCountGrouped,
+    bookRatingCountGrouped,
+    bookStatusCountGrouped,
   };
 };
 

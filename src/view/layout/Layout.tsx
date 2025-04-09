@@ -2,7 +2,6 @@ import { Outlet } from "react-router";
 import Navbar from "./navbar/Navbar";
 import Footer from "./footer/Footer";
 import Loader from "./components/Loader";
-import { memo } from "react";
 
 function Layout() {
   return (

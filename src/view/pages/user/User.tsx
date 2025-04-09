@@ -1,13 +1,9 @@
-import { useUser } from "@context/UserContext";
 import ImageUploader from "./components/ImageUploader";
 import BookList from "./components/BookList";
+import { useLoaderData } from "react-router";
 
 const Profile = () => {
-  const { profile } = useUser();
-
-  if (!profile) {
-    return <div>Треба війти для перегляду профіля</div>;
-  }
+  const { profile } = useLoaderData();
 
   return (
     <div className="max-w-4xl mx-auto p-6 bg-gray-800 text-white rounded-lg shadow-lg space-y-8">

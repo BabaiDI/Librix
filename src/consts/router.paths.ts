@@ -2,6 +2,7 @@ export const routes = {
   home: "/",
   profile: {
     index: "/profile",
+    entity: "/profile/:profileId",
     settings: "/profile/settings",
   },
   books: {

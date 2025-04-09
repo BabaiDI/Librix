@@ -2,9 +2,9 @@ import { useState } from "react";
 import { NavLink } from "react-router";
 import { NAVIGATION_LINKS } from "./config/navigations";
 import UserMenu from "./components/UserMenu";
-import { useUser } from "@context/UserContext";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/solid";
 import Notification from "./components/notification/Notification";
+import { useUser } from "@context/UserContext";
 
 const MobileMenuButton = ({ isOpen, onClick }: { isOpen: boolean; onClick: () => void }) => (
   <button

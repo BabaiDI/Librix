@@ -1,8 +1,9 @@
 import { useSearchParams } from "react-router";
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { FormEvent } from "react";
 import YearRange from "./YearRange";
 import PageRange from "./PageRange";
+import supabase from "@services/supabaseClient";
 
 const Filter = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -40,6 +41,22 @@ const Filter = () => {
     setSearchParams(newSearchParams);
   };
 
+  const [languages, setLanguages] = useState<string[]>([]);
+  useEffect(() => {
+    supabase
+      .from("unique_languages")
+      .select("*")
+      .then(({ data, error }) => {
+        if (error) return;
+
+        setLanguages(
+          data
+            .map((data) => data.language)
+            .filter((language): language is string => language !== null)
+        );
+      });
+  }, []);
+
   return (
     <div className="w-fit p-4 border border-gray-600 rounded-xl shadow-lg bg-gray-900">
       <h2 className="text-xl font-semibold mb-4">Фільтр</h2>
@@ -70,19 +87,16 @@ const Filter = () => {
             setTo={(value) => setPagesTo(String(value || ""))}
           />
           <div>
-            <label htmlFor="language" className="text-white">
-              Мова
+            <label htmlFor="language" className="text-white font-semibold">
+              Мови
             </label>
-            <input
-              id="language"
-              type="text"
-              value={language}
-              onChange={(e) => setLanguage(e.target.value)}
-              className="w-full p-2 mt-2 border border-gray-400 rounded-md"
-            />
           </div>
-          Рейтинг
-          <div>-</div>
+          <div>
+            <label>Рейтинг</label>
+          </div>
+          <div>
+            <label>Жанри</label>
+          </div>
           <button type="submit" className="mt-4 w-full py-2 bg-blue-600 text-white rounded-lg">
             Пошук
           </button>
