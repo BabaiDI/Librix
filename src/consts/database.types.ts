@@ -60,7 +60,7 @@ export type Database = {
           language: string | null
           pages: number | null
           publish_date: string | null
-          publisher_id: number | null
+          publisher_name: string | null
           title: string
         }
         Insert: {
@@ -71,7 +71,7 @@ export type Database = {
           language?: string | null
           pages?: number | null
           publish_date?: string | null
-          publisher_id?: number | null
+          publisher_name?: string | null
           title: string
         }
         Update: {
@@ -82,18 +82,10 @@ export type Database = {
           language?: string | null
           pages?: number | null
           publish_date?: string | null
-          publisher_id?: number | null
+          publisher_name?: string | null
           title?: string
         }
-        Relationships: [
-          {
-            foreignKeyName: "book_publisher_id_fkey"
-            columns: ["publisher_id"]
-            isOneToOne: false
-            referencedRelation: "publisher"
-            referencedColumns: ["id"]
-          },
-        ]
+        Relationships: []
       }
       book_author: {
         Row: {
@@ -117,6 +109,13 @@ export type Database = {
             referencedColumns: ["id"]
           },
           {
+            foreignKeyName: "book_author_author_id_fkey"
+            columns: ["author_id"]
+            isOneToOne: false
+            referencedRelation: "author_view"
+            referencedColumns: ["id"]
+          },
+          {
             foreignKeyName: "book_author_book_id_fkey"
             columns: ["book_id"]
             isOneToOne: false
@@ -135,15 +134,15 @@ export type Database = {
       book_genre: {
         Row: {
           book_id: number
-          ganre_id: number
+          genre_id: number
         }
         Insert: {
           book_id: number
-          ganre_id: number
+          genre_id: number
         }
         Update: {
           book_id?: number
-          ganre_id?: number
+          genre_id?: number
         }
         Relationships: [
           {
@@ -162,7 +161,7 @@ export type Database = {
           },
           {
             foreignKeyName: "book_genre_ganre_id_fkey"
-            columns: ["ganre_id"]
+            columns: ["genre_id"]
             isOneToOne: false
             referencedRelation: "genre"
             referencedColumns: ["id"]
@@ -215,187 +214,6 @@ export type Database = {
           },
         ]
       }
-      book_reviews: {
-        Row: {
-          book_id: number
-          content: string
-          created_at: string
-          updated_at: string | null
-          user_id: string
-        }
-        Insert: {
-          book_id: number
-          content: string
-          created_at?: string
-          updated_at?: string | null
-          user_id: string
-        }
-        Update: {
-          book_id?: number
-          content?: string
-          created_at?: string
-          updated_at?: string | null
-          user_id?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "book_reviews_book_id_fkey"
-            columns: ["book_id"]
-            isOneToOne: false
-            referencedRelation: "book"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "book_reviews_book_id_fkey"
-            columns: ["book_id"]
-            isOneToOne: false
-            referencedRelation: "page_data_books"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "book_reviews_user_id_fkey1"
-            columns: ["user_id"]
-            isOneToOne: false
-            referencedRelation: "profile"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-      book_series: {
-        Row: {
-          book_id: number
-          created_at: string
-          serial_id: number
-        }
-        Insert: {
-          book_id?: number
-          created_at?: string
-          serial_id: number
-        }
-        Update: {
-          book_id?: number
-          created_at?: string
-          serial_id?: number
-        }
-        Relationships: [
-          {
-            foreignKeyName: "book_series_book_id_fkey"
-            columns: ["book_id"]
-            isOneToOne: false
-            referencedRelation: "book"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "book_series_book_id_fkey"
-            columns: ["book_id"]
-            isOneToOne: false
-            referencedRelation: "page_data_books"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "book_series_serial_id_fkey"
-            columns: ["serial_id"]
-            isOneToOne: false
-            referencedRelation: "serial"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-      commentary: {
-        Row: {
-          book_id: number | null
-          content: string
-          created_at: string
-          id: number
-          parent_id: number | null
-          updated_at: string | null
-          user_id: string
-        }
-        Insert: {
-          book_id?: number | null
-          content: string
-          created_at?: string
-          id?: number
-          parent_id?: number | null
-          updated_at?: string | null
-          user_id: string
-        }
-        Update: {
-          book_id?: number | null
-          content?: string
-          created_at?: string
-          id?: number
-          parent_id?: number | null
-          updated_at?: string | null
-          user_id?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "commentary_book_id_fkey"
-            columns: ["book_id"]
-            isOneToOne: false
-            referencedRelation: "book"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "commentary_book_id_fkey"
-            columns: ["book_id"]
-            isOneToOne: false
-            referencedRelation: "page_data_books"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "commentary_parent_id_fkey"
-            columns: ["parent_id"]
-            isOneToOne: false
-            referencedRelation: "commentary"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "commentary_user_id_fkey"
-            columns: ["user_id"]
-            isOneToOne: false
-            referencedRelation: "profile"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-      commentary_action: {
-        Row: {
-          action: Database["public"]["Enums"]["commenraty_action"]
-          commentary_id: number
-          created_at: string
-          user_id: string
-        }
-        Insert: {
-          action: Database["public"]["Enums"]["commenraty_action"]
-          commentary_id?: number
-          created_at?: string
-          user_id?: string
-        }
-        Update: {
-          action?: Database["public"]["Enums"]["commenraty_action"]
-          commentary_id?: number
-          created_at?: string
-          user_id?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "commentary_action_commentary_id_fkey"
-            columns: ["commentary_id"]
-            isOneToOne: false
-            referencedRelation: "commentary"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "commentary_action_user_id_fkey1"
-            columns: ["user_id"]
-            isOneToOne: false
-            referencedRelation: "profile"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
       genre: {
         Row: {
           created_at: string
@@ -435,66 +253,18 @@ export type Database = {
         }
         Relationships: []
       }
-      publisher: {
+      roles: {
         Row: {
-          country: string | null
-          created_at: string
-          description: string | null
-          founded: string | null
-          founder: string | null
-          headquarters: string | null
-          id: number
-          logo_url: string | null
-          name: string
-          website: string | null
+          role: Database["public"]["Enums"]["Roles"] | null
+          user_id: string
         }
         Insert: {
-          country?: string | null
-          created_at?: string
-          description?: string | null
-          founded?: string | null
-          founder?: string | null
-          headquarters?: string | null
-          id?: number
-          logo_url?: string | null
-          name: string
-          website?: string | null
+          role?: Database["public"]["Enums"]["Roles"] | null
+          user_id: string
         }
         Update: {
-          country?: string | null
-          created_at?: string
-          description?: string | null
-          founded?: string | null
-          founder?: string | null
-          headquarters?: string | null
-          id?: number
-          logo_url?: string | null
-          name?: string
-          website?: string | null
-        }
-        Relationships: []
-      }
-      serial: {
-        Row: {
-          created_at: string
-          description: string | null
-          id: number
-          name: string | null
-          updated_at: string | null
-        }
-        Insert: {
-          created_at?: string
-          description?: string | null
-          id?: number
-          name?: string | null
-          updated_at?: string | null
-        }
-        Update: {
-          created_at?: string
-          description?: string | null
-          id?: number
-          name?: string | null
-          updated_at?: string | null
+          role?: Database["public"]["Enums"]["Roles"] | null
+          user_id?: string
         }
         Relationships: []
       }
@@ -586,6 +356,51 @@ export type Database = {
       }
     }
     Views: {
+      author_view: {
+        Row: {
+          biography: string | null
+          birth_date: string | null
+          created_at: string | null
+          death_date: string | null
+          first_name: string | null
+          full_name: string | null
+          id: number | null
+          image_url: string | null
+          last_name: string | null
+          middle_name: string | null
+          nationality: string | null
+          website: string | null
+        }
+        Insert: {
+          biography?: string | null
+          birth_date?: string | null
+          created_at?: string | null
+          death_date?: string | null
+          first_name?: string | null
+          full_name?: never
+          id?: number | null
+          image_url?: string | null
+          last_name?: string | null
+          middle_name?: string | null
+          nationality?: string | null
+          website?: string | null
+        }
+        Update: {
+          biography?: string | null
+          birth_date?: string | null
+          created_at?: string | null
+          death_date?: string | null
+          first_name?: string | null
+          full_name?: never
+          id?: number | null
+          image_url?: string | null
+          last_name?: string | null
+          middle_name?: string | null
+          nationality?: string | null
+          website?: string | null
+        }
+        Relationships: []
+      }
       page_data_books: {
         Row: {
           average_rating: number | null
@@ -596,7 +411,7 @@ export type Database = {
           language: string | null
           pages: number | null
           publish_date: string | null
-          publisher_id: number | null
+          publisher_name: string | null
           title: string | null
         }
         Insert: {
@@ -608,7 +423,7 @@ export type Database = {
           language?: string | null
           pages?: number | null
           publish_date?: string | null
-          publisher_id?: number | null
+          publisher_name?: string | null
           title?: string | null
         }
         Update: {
@@ -620,22 +435,20 @@ export type Database = {
           language?: string | null
           pages?: number | null
           publish_date?: string | null
-          publisher_id?: number | null
+          publisher_name?: string | null
           title?: string | null
         }
-        Relationships: [
-          {
-            foreignKeyName: "book_publisher_id_fkey"
-            columns: ["publisher_id"]
-            isOneToOne: false
-            referencedRelation: "publisher"
-            referencedColumns: ["id"]
-          },
-        ]
+        Relationships: []
       }
       unique_languages: {
         Row: {
           language: string | null
+        }
+        Relationships: []
+      }
+      unique_nationalities: {
+        Row: {
+          nationality: string | null
         }
         Relationships: []
       }
@@ -668,6 +481,7 @@ export type Database = {
         | "on hold"
         | "dropped"
       commenraty_action: "like" | "dislike"
+      Roles: "Admin" | "User"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -791,6 +605,7 @@ export const Constants = {
         "dropped",
       ],
       commenraty_action: ["like", "dislike"],
+      Roles: ["Admin", "User"],
     },
   },
 } as const

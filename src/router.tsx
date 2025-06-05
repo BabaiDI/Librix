@@ -1,25 +1,8 @@
 import { createBrowserRouter, RouterProvider } from "react-router";
-import { lazy } from "react";
-import { routes } from "./consts/router.paths";
-import Layout from "./view/layout/Layout";
-
-import homeLoader from "./view/pages/home/home.loader";
-import bookLoader from "./view/pages/book/book.loader";
-import booksLoader from "./view/pages/books/books.loader";
-import authorLoader from "./view/pages/author/author.loader";
-import authorsLoader from "./view/pages/authors/authors.loader";
-import userLoader from "./view/pages/user/user.loader";
 import { UserProvider } from "./context/UserContext";
-
-const Pages = {
-  Home: lazy(() => import("./view/pages/home/Home")),
-  Profile: lazy(() => import("./view/pages/profile/Profile")),
-  User: lazy(() => import("./view/pages/user/User")),
-  Books: lazy(() => import("./view/pages/books/Books")),
-  Book: lazy(() => import("./view/pages/book/Book")),
-  Authors: lazy(() => import("./view/pages/authors/Authors")),
-  Author: lazy(() => import("./view/pages/author/Author")),
-};
+import PrivateRoute from "./view/layout/components/PrivateRoute";
+import Layout from "./view/layout/Layout";
+import { routes } from "./consts/router.paths";
 
 const router = createBrowserRouter([
   {
@@ -28,24 +11,41 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <Pages.Home />,
-        loader: homeLoader,
+        lazy: async () => {
+          const [Component, loader] = await Promise.all([
+            (await import("./view/pages/home/page")).default,
+            (await import("./view/pages/home/loader")).default,
+          ]);
+          return { Component, loader };
+        },
       },
       {
         path: routes.profile.index,
+        lazy: async () => {
+          const Component = (await import("./view/pages/profile/layout/page")).default;
+          return { Component };
+        },
         children: [
           {
-            index: true,
-            element: <Pages.Profile />,
+            path: routes.profile.favorite,
+            lazy: async () => {
+              const Component = (await import("./view/pages/profile/favorite/page")).default;
+              return { Component };
+            },
+          },
+          {
+            path: routes.profile.list,
+            lazy: async () => {
+              const Component = (await import("./view/pages/profile/list/page")).default;
+              return { Component };
+            },
           },
           {
             path: routes.profile.settings,
-            element: <>Profile settings</>,
-          },
-          {
-            path: routes.profile.entity,
-            element: <Pages.User />,
-            loader: userLoader,
+            lazy: async () => {
+              const Component = (await import("./view/pages/profile/settings/page")).default;
+              return { Component };
+            },
           },
         ],
       },
@@ -54,27 +54,55 @@ const router = createBrowserRouter([
         children: [
           {
             index: true,
-            element: <Pages.Authors />,
-            loader: authorsLoader,
+            lazy: async () => {
+              const [Component, loader] = await Promise.all([
+                (await import("./view/pages/authors/page")).default,
+                (await import("./view/pages/authors/loader")).default,
+              ]);
+              return { Component, loader };
+            },
           },
           {
             path: routes.authors.entity,
             children: [
               {
                 index: true,
-                element: <Pages.Author />,
-                loader: authorLoader,
+                lazy: async () => {
+                  const [Component, loader] = await Promise.all([
+                    (await import("./view/pages/author/view/page")).default,
+                    (await import("./view/pages/author/view/loader")).default,
+                  ]);
+                  return { Component, loader };
+                },
               },
-              {
-                path: routes.authors.edit,
-                element: <>author edit</>,
-              },
+              // {
+              //   path: routes.authors.edit,
+              //   lazy: async () => {
+              //     const Component = (await import("./view/pages/author/edit/page")).default;
+              //     return {
+              //       Component: () => (
+              //         <PrivateRoute>
+              //           <Component />
+              //         </PrivateRoute>
+              //       ),
+              //     };
+              //   },
+              // },
             ],
           },
-          {
-            path: routes.authors.new,
-            element: <>Add authror</>,
-          },
+          // {
+          //   path: routes.authors.create,
+          //   lazy: async () => {
+          //     const Component = (await import("./view/pages/author/create/page")).default;
+          //     return {
+          //       Component: () => (
+          //         <PrivateRoute>
+          //           <Component />
+          //         </PrivateRoute>
+          //       ),
+          //     };
+          //   },
+          // },
         ],
       },
       {
@@ -82,26 +110,62 @@ const router = createBrowserRouter([
         children: [
           {
             index: true,
-            element: <Pages.Books />,
-            loader: booksLoader,
+            lazy: async () => {
+              const [Component, loader] = await Promise.all([
+                (await import("./view/pages/books/page")).default,
+                (await import("./view/pages/books/loader")).default,
+              ]);
+              return { Component, loader };
+            },
           },
           {
             path: routes.books.entity,
             children: [
               {
                 index: true,
-                element: <Pages.Book />,
-                loader: bookLoader,
+                lazy: async () => {
+                  const [Component, loader] = await Promise.all([
+                    (await import("./view/pages/book/view/page")).default,
+                    (await import("./view/pages/book/view/loader")).default,
+                  ]);
+                  return { Component, loader };
+                },
               },
               {
                 path: routes.books.edit,
-                element: <>book edit</>,
+                lazy: async () => {
+                  const [Component, loader] = await Promise.all([
+                    (await import("./view/pages/book/edit/page")).default,
+                    (await import("./view/pages/book/edit/loader")).default,
+                  ]);
+                  return {
+                    Component: () => (
+                      <PrivateRoute>
+                        <Component />
+                      </PrivateRoute>
+                    ),
+                    loader,
+                  };
+                },
               },
             ],
           },
           {
-            path: routes.books.new,
-            element: <>book new</>,
+            path: routes.books.create,
+            lazy: async () => {
+              const [Component, loader] = await Promise.all([
+                (await import("./view/pages/book/create/page")).default,
+                (await import("./view/pages/book/create/loader")).default,
+              ]);
+              return {
+                Component: () => (
+                  <PrivateRoute>
+                    <Component />
+                  </PrivateRoute>
+                ),
+                loader,
+              };
+            },
           },
         ],
       },

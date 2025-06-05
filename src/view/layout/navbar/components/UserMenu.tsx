@@ -15,9 +15,9 @@ export default function UserIcon({ profile, signOut }: UserIconType) {
   const avatarUrl = useProfileAvatar(profile.id, profile.name);
 
   const UserMenuDetails = [
-    { name: "You Profile", href: routes.profile.index, onClick: () => {} },
-    { name: "Settings", href: routes.profile.settings, onClick: () => {} },
-    { name: "Sign out", href: "", onClick: signOut },
+    { name: "Профіль", href: routes.profile.index, onClick: () => {} },
+    { name: "Налаштування", href: routes.profile.settings, onClick: () => {} },
+    { name: "Вийти", href: "", onClick: signOut },
   ];
 
   useEffect(() => {
@@ -28,9 +28,7 @@ export default function UserIcon({ profile, signOut }: UserIconType) {
     };
     document.addEventListener("click", handleClickOutside);
 
-    return () => {
-      document.removeEventListener("click", handleClickOutside);
-    };
+    return () => document.removeEventListener("click", handleClickOutside);
   }, []);
 
   return (

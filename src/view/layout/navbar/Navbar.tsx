@@ -3,7 +3,6 @@ import { NavLink } from "react-router";
 import { NAVIGATION_LINKS } from "./config/navigations";
 import UserMenu from "./components/UserMenu";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/solid";
-import Notification from "./components/notification/Notification";
 import { useUser } from "@context/UserContext";
 
 const MobileMenuButton = ({ isOpen, onClick }: { isOpen: boolean; onClick: () => void }) => (
@@ -62,7 +61,7 @@ const Navbar = () => {
 
           {/* Notifications & User Menu */}
           <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-            <Notification />
+            {/* <Notification /> */}
 
             {/* User Menu */}
             <div className="relative ml-3">
@@ -70,7 +69,7 @@ const Navbar = () => {
                 <UserMenu profile={profile} signOut={signOut} />
               ) : (
                 <button className="text-white" onClick={openAuthModal}>
-                  Login
+                  Увійти
                 </button>
               )}
             </div>

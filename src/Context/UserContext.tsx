@@ -1,12 +1,13 @@
 import { createContext, ReactNode, useContext, useEffect, useState } from "react";
 import supabase from "../services/supabaseClient";
-import { User } from "@supabase/supabase-js";
+import type { User } from "@supabase/supabase-js";
 import { AuthModal } from "@modals/auth/AuthModal";
 import { Tables } from "@consts/database.types";
 
 interface UserContextType {
   user: User | null;
   profile: Tables<"profile"> | null;
+  role: Tables<"roles">["role"] | null;
   signIn: (
     email: string,
     password: string,
@@ -27,14 +28,11 @@ const UserContext = createContext<UserContextType | null>(null);
 export const UserProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
   const [profile, setProfile] = useState<Tables<"profile"> | null>(null);
+  const [role, setRole] = useState<Tables<"roles">["role"]>(null);
 
   const [authModalOpen, setAuthModalOpen] = useState(false);
-  const openAuthModal = () => {
-    setAuthModalOpen(true);
-  };
-  const closeAuthModal = () => {
-    setAuthModalOpen(false);
-  };
+  const openAuthModal = () => setAuthModalOpen(true);
+  const closeAuthModal = () => setAuthModalOpen(false);
 
   const signIn = async (email: string, password: string, captchaToken: string) => {
     const { data, error } = await supabase.auth.signInWithPassword({
@@ -119,13 +117,39 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
       .select()
       .eq("id", user.id)
       .single()
-      .then((data) => {
-        setProfile(data.data);
+      .then(({ data, error }) => {
+        if (error) {
+          console.log(error);
+          return;
+        }
+
+        setProfile(data);
+      });
+  }, [user]);
+
+  useEffect(() => {
+    if (!user) {
+      setRole("User");
+      return;
+    }
+
+    supabase
+      .from("roles")
+      .select()
+      .eq("user_id", user.id)
+      .single()
+      .then(({ data, error }) => {
+        if (error) {
+          console.log(error);
+          return;
+        }
+
+        setRole(data.role);
       });
   }, [user]);
 
   return (
-    <UserContext.Provider value={{ user, profile, signIn, signOut, signUp, openAuthModal }}>
+    <UserContext.Provider value={{ user, profile, role, signIn, signOut, signUp, openAuthModal }}>
       <>
         <AuthModal isOpen={authModalOpen} onClose={closeAuthModal} />
         {children}

@@ -2,25 +2,21 @@ export const routes = {
   home: "/",
   profile: {
     index: "/profile",
+    favorite: "/profile/favorite",
     entity: "/profile/:profileId",
     settings: "/profile/settings",
+    list: "/profile/list",
   },
   books: {
     index: "/books",
     entity: "/books/:bookId",
-    new: "/books/new",
+    create: "/books/create",
     edit: "/books/:bookId/edit",
   },
   authors: {
     index: "/authors",
     entity: "/authors/:authorId",
-    new: "/authors/new",
+    create: "/authors/create",
     edit: "/authors/:authorId/edit",
-  },
-  publisher: {
-    index: "/publisher",
-    entity: "/publisher/:publisherId",
-    new: "/publisher/new",
-    edit: "/publisher/:publisherId/edit",
   },
 };

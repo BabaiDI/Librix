@@ -2,8 +2,9 @@ import { useNavigation } from "react-router";
 
 export default function Loader() {
   const navigation = useNavigation();
+  const isNavigating = Boolean(navigation.location);
 
-  if (navigation.state !== "loading") {
+  if (!isNavigating) {
     return;
   }
 
