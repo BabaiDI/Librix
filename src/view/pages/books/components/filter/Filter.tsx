@@ -95,7 +95,7 @@ const Filter = () => {
   };
 
   return (
-    <div className="w-md p-4 border border-gray-600 rounded-xl shadow-lg bg-gray-900">
+    <div className="md:w-md p-4 border border-gray-600 rounded-xl shadow-lg bg-gray-900">
       <h2 className="text-xl font-semibold mb-4 text-white">Фільтр</h2>
       <form onSubmit={handleSubmit} className="space-y-3">
         {/* Назва */}

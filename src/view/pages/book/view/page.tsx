@@ -32,7 +32,6 @@ export default function page() {
         />
       </>
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-4">
-        {/* Left Column (Book Cover and Actions) */}
         <div className="px-6">
           <div className="relative">
             <img
@@ -48,9 +47,7 @@ export default function page() {
           </div>
         </div>
 
-        {/* Main Column (Book Info and Description) */}
         <div className="grid grid-cols-1 lg:grid-cols-3 col-span-1 h-fit lg:col-span-3 gap-4">
-          {/* Book Title and Rating */}
           <div className="flex justify-between lg:col-span-3 p-6">
             <div className="text-3xl font-semibold text-white">{book.title}</div>
 
@@ -72,7 +69,6 @@ export default function page() {
             </div>
           </div>
 
-          {/* Book Description and Authors */}
           <div className="p-6 flex flex-col gap-4 lg:col-span-2 rounded-lg">
             <div>
               <h2 className="text-lg font-semibold text-white mb-2">Жанри</h2>
@@ -115,7 +111,6 @@ export default function page() {
             )}
           </div>
 
-          {/* Book Details (Pages, Language, Publisher, etc.) */}
           <div className="flex flex-col gap-4">
             <div className="gap-4 px-4">
               <div className="text-white text-lg font-semibold mb-4">Деталі</div>

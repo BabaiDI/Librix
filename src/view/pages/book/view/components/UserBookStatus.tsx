@@ -80,7 +80,7 @@ export default function UserBookStatus({ bookId, userId }: LibraryTypes) {
             onChange={handleChangeUserBookStatus}
           >
             <option value="default" hidden>
-              "Добавить в библиотеку"
+              "Добавити в бібліотеку"
             </option>
             {statuses.map((status) => (
               <option key={status.type} value={status.type} className="w-full">
